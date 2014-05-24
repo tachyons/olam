@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/new/prefix1">
+        <file>icons/document-export.png</file>
+        <file>icons/document-import.png</file>
+        <file>icons/document-new.png</file>
+        <file>icons/poedit.png</file>
+        <file>icons/system-run.svg</file>
+        <file>icons/help-about.svg</file>
+        <file>icons/application-exit.svg</file>
+        <file>misc/olam.png</file>
+    </qresource>
+</RCC>

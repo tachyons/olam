@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type =Application
+Name =Olam
+Name[ml]=ഓളം
+Name[en]=olam
+Version		= 1.1
+GenericName	= Dictionary
+Categories	= Utility;Languages;Accessories;
+Path=/opt/olam
+Exec=/opt/olam/bin/olam
+Icon=/usr/share/icons/olam.png
