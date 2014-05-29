@@ -1,0 +1,25 @@
+Source: olam
+Section: utils
+Priority: extra
+Maintainer: Aboobacker MK <aboobackervyd@gmail.com>
+Build-Depends: debhelper (>= 8.0.0), qtbase5-dev, qt5-qmake, qtchooser, qt5-default
+Standards-Version: 3.9.4
+Homepage:  http://www.olam.in
+#Vcs-Git: git://git.debian.org/collab-maint/olam.git
+#Vcs-Browser: http://git.debian.org/?p=collab-maint/olam.git;a=summary
+
+Package: olam
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends},,olam-data
+Description: Olam English Malayalam dictionary
+ Offline version of Olam English Malayalam dictionary
+
+Package: olam-doc
+Architecture: all
+Description: documentation for olam
+ Documentation
+
+Package: olam-data
+Architecture: all
+Description: data files for olam
+ DataBase for olam dictionary

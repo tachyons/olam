@@ -1,0 +1,11 @@
+olam (1.1-1ubuntu1~trusty1) trusty; urgency=low
+
+  * package for trusty
+
+ -- Aboobacker MK <aboobackervyd@gmail.com>  Sat, 08 Mar 2014 14:18:35 +0530
+
+olam (1.1-1ubuntu1~saucy1) saucy; urgency=low
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- Aboobacker MK <aboobackervyd@gmail.com>  Sat, 08 Mar 2014 11:37:43 +0530
