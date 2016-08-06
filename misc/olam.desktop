@@ -8,5 +8,5 @@ Categories=Utility;Languages;Accessories;
 #Path=/opt/olam
 Exec=olam
 #Icon=ddolam.png
-Icon=${SNAP}/user/share/olam/olam.png
+Icon=${SNAP}/usr/share/icons/olam.png
 Name[en_IN]=olam.desktop
