@@ -31,7 +31,7 @@ bool Olam::createConnection()
     olam.setDatabaseName("./db/olamdb.db");
     if (!olam.open())
     {
-        olam.setDatabaseName("/opt/olam/data/db/olamdb.db");
+        olam.setDatabaseName("/usr/share/olam/data/db/olamdb.db");
         if (!olam.open())
         {
             QMessageBox::information(0, "Connection Failed!", olam.lastError().text(),QMessageBox::Ok, QMessageBox::NoButton);
@@ -42,7 +42,7 @@ bool Olam::createConnection()
     datuk.setDatabaseName("./db/datuk.sqlite");
     if (!datuk.open())
     {
-        datuk.setDatabaseName("/opt/olam/data/db/datuk.sqlite");
+        datuk.setDatabaseName("/usr/share/olam/data/db/datuk.sqlite");
         if (!datuk.open())
         {
             QMessageBox::information(0, "Connection Failed!", datuk.lastError().text(),QMessageBox::Ok, QMessageBox::NoButton);
