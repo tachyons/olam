@@ -10,3 +10,4 @@ ui_olam.h
 parts/
 prime/
 stage/
+*.o

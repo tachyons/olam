@@ -28,13 +28,13 @@ Olam::~Olam()
 bool Olam::createConnection()
 {
     QSqlDatabase olam = QSqlDatabase::addDatabase("QSQLITE","olam");
-    olam.setDatabaseName("./db/olamdb.db");             
+    olam.setDatabaseName("./db/olamdb.db");
     if (!olam.open())
     {
-        olam.setDatabaseName("/usr/share/olam/data/db/olamdb.db");
+        olam.setDatabaseName("/snap/olam/current/usr/share/olam/data/db/olamdb.db");
         if (!olam.open())
         {
-            QMessageBox::information(0, "Connection Failed!"+ $$[SNAP], olam.lastError().text(),QMessageBox::Ok, QMessageBox::NoButton);
+            QMessageBox::information(0, "Connection Failed!", olam.lastError().text(),QMessageBox::Ok, QMessageBox::NoButton);
         }
 
     }
@@ -42,10 +42,10 @@ bool Olam::createConnection()
     datuk.setDatabaseName("./db/datuk.sqlite");
     if (!datuk.open())
     {
-        datuk.setDatabaseName("/usr/share/olam/data/db/datuk.sqlite");
+        datuk.setDatabaseName("/snap/olam/current/usr/share/olam/data/db/datuk.sqlite");
         if (!datuk.open())
         {
-            QMessageBox::information(0, "Connection Failed!"+ $$[SNAP], datuk.lastError().text(),QMessageBox::Ok, QMessageBox::NoButton);
+            QMessageBox::information(0, "Connection Failed!", datuk.lastError().text(),QMessageBox::Ok, QMessageBox::NoButton);
         }
 
     }
