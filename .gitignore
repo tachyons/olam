@@ -1,0 +1,8 @@
+Makefile
+olam
+olam.pro.*
+moc_about.cpp
+moc_olam.cpp
+qrc_icons.cpp
+ui_about.h
+ui_olam.h

@@ -14,6 +14,10 @@ Olam::Olam(QWidget *parent) :
 {
     ui->setupUi(this);
     createConnection();
+    ui->dict_result->setFontPointSize(100);
+    QFont font;
+    font.setPixelSize(20);
+    ui->dict_result->setFont(font);
 }
 
 Olam::~Olam()
