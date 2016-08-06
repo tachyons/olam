@@ -85,15 +85,33 @@ OTHER_FILES += \
 
 RESOURCES += \
     icons.qrc
+
 unix {
+  isEmpty(PREFIX) {
+    PREFIX = /usr
+  }
+
+  isEmpty(BINDIR) {
+    BINDIR = $$PREFIX/bin
+  }
+
+  isEmpty(DATADIR) {
+    DATADIR = $$PREFIX/share
+  }
     INSTALLS += target data icon desktopfile
     target.files = $$TARGET
-    target.path = /opt/olam/bin
+    target.path = $$BINDIR
+
     data.files = db
-    data.path = /opt/olam/data
+    data.path = $$DATADIR/olam/data
+
+
     icon.files = misc/olam.png
-    icon.path = /usr/share/icons
+    icon.path = $$DATADIR/icons
+
     desktopfile.files = misc/olam.desktop
-    desktopfile.path = /usr/share/applications
+    desktopfile.path = $$DATADIR/applications
+
+
     QMAKE_CXXFLAGS += -DVISRULED_DATADIR=$$data.path
 }
