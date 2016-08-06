@@ -1,11 +1,12 @@
 [Desktop Entry]
-Type =Application
-Name =Olam
-Name[ml]=ഓളം
+Type=Application
+Name=Olam
 Name[en]=olam
-Version		= 1.1
-GenericName	= Dictionary
-Categories	= Utility;Languages;Accessories;
-Path=/opt/olam
-Exec=/opt/olam/bin/olam
-Icon=/usr/share/icons/olam.png
+Version=1.1
+GenericName=Dictionary
+Categories=Utility;Languages;Accessories;
+#Path=/opt/olam
+Exec=olam
+#Icon=ddolam.png
+Icon=${SNAP}/user/share/olam/olam.png
+Name[en_IN]=olam.desktop

@@ -6,3 +6,7 @@ moc_olam.cpp
 qrc_icons.cpp
 ui_about.h
 ui_olam.h
+*.snap
+parts/
+prime/
+stage/
