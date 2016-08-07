@@ -7,13 +7,14 @@ confinement: strict  # use "strict" to enforce system access only via declared i
 apps:
   olam:
     command: desktop-launch olam
-    plugs:
-      - x11
-      - home
+    #plugs:
+    # - x11
+    # - home
 
 parts:
     olam:
-        source: /home/tachyons/projects/olam
+      #source: /home/tachyons/projects/olam
+        source: https://github.com/tachyons/olam.git
         plugin: qmake
         qt-version: qt5
         build-packages:
