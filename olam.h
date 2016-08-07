@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QRegExp>
 #include <QDebug>
+#include <QFileInfo>
 
 namespace Ui {
 class Olam;

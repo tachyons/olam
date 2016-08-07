@@ -24,30 +24,36 @@ Olam::~Olam()
 {
     delete ui;
 }
+
+bool fileExists(QString path) {
+    QFileInfo check_file(path);
+    // check if file exists and if yes: Is it really a file and no directory?
+    return (check_file.exists() && check_file.isFile());
+}
+
 //create connection with db
 bool Olam::createConnection()
 {
     QSqlDatabase olam = QSqlDatabase::addDatabase("QSQLITE","olam");
-    olam.setDatabaseName("./db/olamdb.db");
-    if (!olam.open())
-    {
-        olam.setDatabaseName("/snap/olam/current/usr/share/olam/data/db/olamdb.db");
-        if (!olam.open())
-        {
-            QMessageBox::information(0, "Connection Failed!", olam.lastError().text(),QMessageBox::Ok, QMessageBox::NoButton);
+    QList<QString> paths;
+    paths << "./db/olamdb.db"<< "/snap/olam/current/usr/share/olam/data/db/olamdb.db" << "/usr/share/olam/data/db/olamdb.db";
+    QList<QString>::iterator i;
+    for (i = paths.begin(); i != paths.end(); ++i) {
+        if (fileExists(*i)) {
+            olam.setDatabaseName(*i);
         }
-
     }
     QSqlDatabase datuk = QSqlDatabase::addDatabase("QSQLITE","datuk");
-    datuk.setDatabaseName("./db/datuk.sqlite");
-    if (!datuk.open())
-    {
-        datuk.setDatabaseName("/snap/olam/current/usr/share/olam/data/db/datuk.sqlite");
-        if (!datuk.open())
-        {
-            QMessageBox::information(0, "Connection Failed!", datuk.lastError().text(),QMessageBox::Ok, QMessageBox::NoButton);
+    paths << "./db/datuk.sqlite"<< "/snap/olam/current/usr/share/olam/data/db/datuk.sqlite" << "/usr/share/olam/data/db/datuk.sqlite";
+    for (i = paths.begin(); i != paths.end(); ++i) {
+        if (fileExists(*i)) {
+            datuk.setDatabaseName(*i);
         }
+    }
 
+    if (!olam.open() || !datuk.open())
+    {
+        QMessageBox::information(0, "Connection Failed!", olam.lastError().text(),QMessageBox::Ok, QMessageBox::NoButton);
     }
 
     return true;
@@ -61,7 +67,7 @@ QString Olam::translate(QString text)
     db.open();
     if(!db.isValid())
     {
-       cout<<"not valid";
+        cout<<"not valid";
     }
     QSqlQuery query(db);
     QString querystring,word;
@@ -71,7 +77,7 @@ QString Olam::translate(QString text)
     QList<QPair<QString, QString> > entry;
     QList<QPair<QString, QString> >poslist;
     //initilise pos tags
-   /* QPair <QString, QString>posentry;
+    /* QPair <QString, QString>posentry;
     posentry.first="n";
     posentry.second="noun";
     poslist.append(posentry);
@@ -108,7 +114,7 @@ QString Olam::translate(QString text)
         pair.first =query.value(0).toString();
         pair.second=query.value(1).toString();
         entry.append(pair);
-     }
+    }
     QString result="",po;
     QStringList noun,verb,adj,adverb,other;
     for (int i = 0; i < entry.size(); ++i)
@@ -121,11 +127,11 @@ QString Olam::translate(QString text)
         }
         else if(po=="v")
         {
-           verb<<entry.at(i).first;
+            verb<<entry.at(i).first;
         }
         else if(po=="a")
         {
-           adj<<entry.at(i).first;
+            adj<<entry.at(i).first;
         }
         else if(po=="adv")
         {
@@ -166,46 +172,46 @@ void Olam::on_malmal_search_clicked()
 {
 
     //QSqlDatabase::database("corpus");
-     QString result;
-     result=searchcorpus(ui->corpus_word->text());
-     result=result.trimmed();
-     ui->corpus_result->setText(result);
- }
- QString Olam::searchcorpus(QString word)
- {
-     QSqlDatabase db=QSqlDatabase::database("datuk");
-     db.open();
-     if(!db.isValid())
-     {
-         cout<<"not valid";
-     }
-     QSqlQuery query(db);
-     QString querystring,result;
-     QStringList deflist;
-     word=word.trimmed();
-     querystring="select definition,rtype,letter from word,relation,definition where word.id = relation.id_word AND relation.id_definition = definition.id and word =\"";
-     querystring.append(word);
-     querystring.append("\"");
-     if(!query.exec(querystring))
-     {
-         QMessageBox::critical(0, qApp->tr("Cannot open database"),
-             qApp->tr("queryfailed."), QMessageBox::Cancel);
-     }
-     result+="<ul>";
-     while (query.next())
-     {
-         result+="<li>";
-         result+=query.value(0).toString();
-         result+="<b>";
-         result+=query.value(1).toString();
-         result+="</b>";
-         result+="</li>";
-      }
-      result+="</ul>";
-     db.close();
-     return result;
-     //return querystring;
- }
+    QString result;
+    result=searchcorpus(ui->corpus_word->text());
+    result=result.trimmed();
+    ui->corpus_result->setText(result);
+}
+QString Olam::searchcorpus(QString word)
+{
+    QSqlDatabase db=QSqlDatabase::database("datuk");
+    db.open();
+    if(!db.isValid())
+    {
+        cout<<"not valid";
+    }
+    QSqlQuery query(db);
+    QString querystring,result;
+    QStringList deflist;
+    word=word.trimmed();
+    querystring="select definition,rtype,letter from word,relation,definition where word.id = relation.id_word AND relation.id_definition = definition.id and word =\"";
+    querystring.append(word);
+    querystring.append("\"");
+    if(!query.exec(querystring))
+    {
+        QMessageBox::critical(0, qApp->tr("Cannot open database"),
+                              qApp->tr("queryfailed."), QMessageBox::Cancel);
+    }
+    result+="<ul>";
+    while (query.next())
+    {
+        result+="<li>";
+        result+=query.value(0).toString();
+        result+="<b>";
+        result+=query.value(1).toString();
+        result+="</b>";
+        result+="</li>";
+    }
+    result+="</ul>";
+    db.close();
+    return result;
+    //return querystring;
+}
 QString Olam::printpos(QString pos,QStringList wordlist)
 {
     QString returnstring;
@@ -270,14 +276,14 @@ void Olam::on_dict_word_textEdited(const QString &arg1)
     if(!query.exec(querystring))
     {
         QMessageBox::critical(0, qApp->tr("Cannot open database"),
-            qApp->tr("queryfailed."), QMessageBox::Cancel);
+                              qApp->tr("queryfailed."), QMessageBox::Cancel);
     }
     QStringList wordList;
     while (query.next()) {
-         QString word = query.value(0).toString();
-         wordList <<word;
-         //result.append("\n");
-     }
+        QString word = query.value(0).toString();
+        wordList <<word;
+        //result.append("\n");
+    }
     QCompleter *completer = new QCompleter(wordList, this);
     completer->setCaseSensitivity(Qt::CaseInsensitive);
     ui->dict_word->setCompleter(completer);
@@ -308,14 +314,14 @@ void Olam::on_corpus_word_textEdited(const QString &arg1)
     if(!query.exec(querystring))
     {
         QMessageBox::critical(0, qApp->tr("Cannot open database"),
-            qApp->tr("queryfailed."), QMessageBox::Cancel);
+                              qApp->tr("queryfailed."), QMessageBox::Cancel);
     }
     QStringList wordList;
     while (query.next()) {
         QString word=query.value(0).toString();
         wordList <<word;
-         //result.append("\n");
-     }
+        //result.append("\n");
+    }
     QCompleter *completer = new QCompleter(wordList, this);
     completer->setCaseSensitivity(Qt::CaseInsensitive);
     ui->corpus_word->setCompleter(completer);

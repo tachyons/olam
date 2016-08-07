@@ -1,8 +1,8 @@
 name: olam  # the name of the snap
 version: 0.1  # the version of the snap
-summary: This is my-snap's summary  # 79 char long summary
-description: This is my-snap's description  # a longer description for the snap
-confinement: devmode  # use "strict" to enforce system access only via declared interfaces
+summary: Olam English Malayalam Dictionary   # 79 char long summary
+description: Unofficial Olam desktop client for ubuntu # a longer description for the snap
+confinement: strict  # use "strict" to enforce system access only via declared interfaces
 
 apps:
   olam:
@@ -24,7 +24,6 @@ parts:
     env:
       plugin: nil
       stage-packages:
-        - libqt5gui5
         - libqt5sql5
         - libqt5sql5-sqlite
         - libqt5widgets5
