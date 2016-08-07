@@ -10,4 +10,10 @@ Olam free and open source english malayalam repository with qt gui
 
 [Download](https://apps.ubuntu.com/cat/applications/olam/)
 
+# Install
+
+``` bash
+sudo snap install olam
+```
+
 ![olam](/olam.jpeg)
