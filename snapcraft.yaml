@@ -1,5 +1,5 @@
 name: olam  # the name of the snap
-version: 0.1  # the version of the snap
+version: 1.1  # the version of the snap
 summary: Olam English Malayalam Dictionary   # 79 char long summary
 description: Unofficial Olam desktop client for ubuntu # a longer description for the snap
 confinement: strict  # use "strict" to enforce system access only via declared interfaces
@@ -13,7 +13,7 @@ apps:
 
 parts:
     olam:
-        source: /home/tachyons/projects/olam
+        source: .
         #source: https://github.com/tachyons/olam.git
         plugin: qmake
         qt-version: qt5
