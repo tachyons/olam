@@ -1,1 +1,11 @@
-/home/tachyons/projects/olam/misc/olam.desktop
+[Desktop Entry]
+Type=Application
+Name=Olam
+Name[en]=olam
+Version=1.1
+GenericName=Dictionary
+Categories=Utility;Languages;Accessories;
+#Path=/opt/olam
+Exec=olam
+Icon=${SNAP}/usr/share/icons/olam.png
+Name[en_IN]= Olam
