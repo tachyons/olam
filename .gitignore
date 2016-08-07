@@ -11,3 +11,4 @@ parts/
 prime/
 stage/
 *.o
+*.autosave

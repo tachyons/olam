@@ -10,6 +10,9 @@ apps:
     plugs:
      - unity7
      - home
+     - x11
+     - network
+     - network-bind
 
 parts:
     olam:
@@ -30,4 +33,4 @@ parts:
         - libqt5sql5-sqlite
         - libqt5widgets5
         - libqt5xml5
-      after: [qt5conf]
+      after: [desktop/qt5]
