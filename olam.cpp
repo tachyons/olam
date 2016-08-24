@@ -325,7 +325,6 @@ void Olam::on_corpus_word_textEdited(const QString &arg1)
     QCompleter *completer = new QCompleter(wordList, this);
     completer->setCaseSensitivity(Qt::CaseInsensitive);
     ui->corpus_word->setCompleter(completer);
-    //ui->corpus_result->setText(querystring);
     db.close();
 }
 
