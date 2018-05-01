@@ -24,13 +24,11 @@ parts:
           - qttools5-dev
           - build-essential
           - qttools5-dev-tools
-        after: [desktop/qt5]
-    env:
-      plugin: nil
-      stage-packages:
-        - libqt5gui5
-        - libqt5sql5
-        - libqt5sql5-sqlite
-        - libqt5widgets5
-        - libqt5xml5
-      after: [desktop/qt5]
+        after: [desktop-qt5]
+    desktop-qt5:
+        stage-packages:
+          - libqt5gui5
+          - libqt5sql5
+          - libqt5sql5-sqlite
+          - libqt5widgets5
+          - libqt5xml5
