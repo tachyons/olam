@@ -6,7 +6,7 @@ confinement: strict  # use "strict" to enforce system access only via declared i
 
 apps:
   olam:
-    command: desktop-launch $SNAP/bin/olam
+    command: desktop-launch olam
     plugs:
      - unity7
      - desktop
