@@ -14,12 +14,6 @@ apps:
      - network
      - network-bind
      - opengl
-plugs:
-  platform:
-    interface: content
-    content: ubuntu-app-platform1
-    target: ubuntu-app-platform
-    default-provider: ubuntu-app-platform
 
 parts:
     olam:
@@ -28,10 +22,19 @@ parts:
         plugin: qmake
         qt-version: qt5
         build-packages:
+          - qt5-default
           - qttools5-dev
           - build-essential
           - qttools5-dev-tools
-        after: [desktop-ubuntu-app-platform]
-        install: |
-          # Create directory to serve as mount point for ubuntu-app-platform
-          mkdir $SNAPCRAFT_PART_INSTALL/ubuntu-app-platform
+        stage-packages:
+          - libqt5core5a
+          - libqt5gui5
+          - libqt5widgets5
+          - libqt5dbus5
+          - libqt5svg5
+          - libreadline6
+          - libcanberra-gtk-module
+          - liblua5.2-0
+          - ttf-ubuntu-font-family
+          - fonts-dejavu
+        after: [desktop-qt5]
