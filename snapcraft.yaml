@@ -37,4 +37,6 @@ parts:
           - liblua5.2-0
           - ttf-ubuntu-font-family
           - fonts-dejavu
+          - libqt5sql5
+          - libqt5sql5-sqlite
         after: [desktop-qt5]
