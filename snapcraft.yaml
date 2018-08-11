@@ -14,6 +14,12 @@ apps:
      - network
      - network-bind
      - opengl
+plugs:
+  platform:
+    interface: content
+    content: ubuntu-app-platform1
+    target: ubuntu-app-platform
+    default-provider: ubuntu-app-platform
 
 parts:
     olam:
