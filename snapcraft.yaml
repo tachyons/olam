@@ -9,6 +9,9 @@ apps:
     command: desktop-launch $SNAP/bin/olam
     plugs:
      - unity7
+     - desktop
+     - desktop-legacy
+     - wayland
      - home
      - x11
      - network
