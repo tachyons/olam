@@ -42,4 +42,6 @@ parts:
           - fonts-dejavu
           - libqt5sql5
           - libqt5sql5-sqlite
+          - libatk-adaptor 
+          - libgail-common
         after: [desktop-qt5]
