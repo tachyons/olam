@@ -7,3 +7,6 @@ install:
 build_script:
   - qmake olam.pro
   - mingw32-make
+artifacts:
+  - path: release/olam.exe
+    name: Olam
