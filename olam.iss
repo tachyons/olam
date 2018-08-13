@@ -46,24 +46,13 @@ Source: "release\Qt5Sql.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\db\datuk.sqlite"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\db\olamdb.db"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\sqldrivers\qsqlite.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\sqldrivers\qsqlmysql.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\sqldrivers\qsqlodbc.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\sqldrivers\qsqlpsql.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\platforms\qwindows.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\styles\qwindowsvistastyle.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\imageformats\qgif.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\imageformats\qicns.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\imageformats\qico.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\imageformats\qjpeg.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\imageformats\qsvg.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\imageformats\qtga.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\imageformats\qtiff.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\imageformats\qwbmp.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\imageformats\qwebp.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\iconengines\qsvgicon.dll"; DestDir: "{app}"; Flags: ignoreversion
+
+Source: "release\iconengines\*"; DestDir: "{app}\iconengines"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "release\imageformats\*"; DestDir: "{app}\imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "release\platforms\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "release\translations\*"; DestDir: "{app}\translations"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "release\styles\*"; DestDir: "{app}\styles"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "release\db\*"; DestDir: "{app}\db"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
