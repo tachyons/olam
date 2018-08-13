@@ -8,7 +8,7 @@ build_script:
   - qmake olam.pro
   - mingw32-make
 after_build:
-  - windeployqt release/olam.exe
+  - windeployqt release/olam.exe --compiler-runtime
   - rm release/*.o
   - rm release/*.cpp
 artifacts:
