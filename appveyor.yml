@@ -7,6 +7,10 @@ install:
 build_script:
   - qmake olam.pro
   - mingw32-make
+after_build:
+  - windeployqt release/olam.exe
+  - rm release/*.o
+  - rm release/*.cpp
 artifacts:
-  - path: release/olam.exe
-    name: Olam
+  - path: release
+    type: zip
