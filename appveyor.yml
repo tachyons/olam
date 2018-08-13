@@ -5,10 +5,10 @@ install:
   - set QTDIR=C:\Qt\5.10.1\mingw53_32
   - set PATH=%PATH%;%QTDIR%\bin;C:\MinGW\bin
 build_script:
-  - qmake olam.pro
+  - qmake CONFIG+=debug olam.pro
   - mingw32-make
 after_build:
-  - windeployqt release/olam.exe --compiler-runtime
+  - windeployqt --compiler-runtime --release release/olam.exe 
   - rm release/*.o
   - rm release/*.cpp
 artifacts:
