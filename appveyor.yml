@@ -14,7 +14,7 @@ after_build:
   - cp -r db release
   - cp -r misc release
   - cp LICENSE release
-  - iscc innosetup.iss
+  - iscc olam.iss
 artifacts:
   - path: release
     type: zip
