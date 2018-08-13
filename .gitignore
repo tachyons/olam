@@ -6,6 +6,7 @@ moc_olam.cpp
 qrc_icons.cpp
 ui_about.h
 ui_olam.h
+moc_predefs.h
 *.snap
 parts/
 prime/
