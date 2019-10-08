@@ -25,7 +25,7 @@ Download olam-setup.exe from the [release page](https://github.com/tachyons/olam
 
 ## Mac OSX
 
-[Olam Mac version](https://api.cirrus-ci.com/v1/artifact/task/6289413981601792/binaries/olam.dmg)
+[Download](https://api.cirrus-ci.com/v1/artifact/github/tachyons/olam/release/build/olam.dmg)
 
 # Screenshot
 
