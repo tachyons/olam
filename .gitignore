@@ -13,3 +13,8 @@ prime/
 stage/
 *.o
 *.autosave
+.DS_Store
+.qmake.stash
+olam.app/
+qmake_qmake_immediate.qrc
+qrc_qmake_qmake_immediate.cpp

@@ -8,6 +8,8 @@ QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+QMAKE_CXXFLAGS += -std=c++0x
+
 TARGET = olam
 TEMPLATE = app
 
@@ -30,7 +32,7 @@ OTHER_FILES += \
 RESOURCES += \
     icons.qrc
 
-unix {
+linux {
   isEmpty(PREFIX) {
     PREFIX = /usr
   }
@@ -58,4 +60,10 @@ unix {
 
 
     QMAKE_CXXFLAGS += -DVISRULED_DATADIR=$$data.path
+}
+macx{
+ # Add file icons into the application bundle resources
+    DB.files =  db/olamdb.db db/datuk.sqlite
+    DB.path = Contents/Resources
+    QMAKE_BUNDLE_DATA += DB
 }

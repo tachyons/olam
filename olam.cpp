@@ -31,29 +31,38 @@ bool fileExists(QString path) {
     return (check_file.exists() && check_file.isFile());
 }
 
+QString getResourcePath() {
+#if defined(Q_OS_WIN)
+    return QApplication::applicationDirPath() + "/db";
+#elif defined(Q_OS_OSX)
+    return QApplication::applicationDirPath() + "/../Resources/";
+#elif defined(Q_OS_LINUX)
+    return QApplication::applicationDirPath() + "/../share/olam/db";
+#else
+    return QApplication::applicationDirPath() + "/db";
+#endif
+}
+
+QString getOlamDbPath(){
+   return getResourcePath() + "/olamdb.db";
+}
+QString getDatukDbPath(){
+    return getResourcePath() + "/datuk.sqlite";
+}
+
+
+
 //create connection with db
 bool Olam::createConnection()
 {
     QSqlDatabase olam = QSqlDatabase::addDatabase("QSQLITE","olam");
-    QList<QString> paths;
-    paths << "./db/olamdb.db"<< "/snap/olam/current/usr/share/olam/data/db/olamdb.db" << "/usr/share/olam/data/db/olamdb.db";
-    QList<QString>::iterator i;
-    for (i = paths.begin(); i != paths.end(); ++i) {
-        if (fileExists(*i)) {
-            olam.setDatabaseName(*i);
-        }
-    }
+    olam.setDatabaseName(getOlamDbPath());
     QSqlDatabase datuk = QSqlDatabase::addDatabase("QSQLITE","datuk");
-    paths << "./db/datuk.sqlite"<< "/snap/olam/current/usr/share/olam/data/db/datuk.sqlite" << "/usr/share/olam/data/db/datuk.sqlite";
-    for (i = paths.begin(); i != paths.end(); ++i) {
-        if (fileExists(*i)) {
-            datuk.setDatabaseName(*i);
-        }
-    }
+    datuk.setDatabaseName(getDatukDbPath());
 
     if (!olam.open() || !datuk.open())
     {
-        QMessageBox::information(0, "Connection Failed!", olam.lastError().text(),QMessageBox::Ok, QMessageBox::NoButton);
+        QMessageBox::information(nullptr, "Connection to dictionary Failed!", olam.lastError().text(),QMessageBox::Ok, QMessageBox::NoButton);
     }
 
     return true;
@@ -194,7 +203,7 @@ QString Olam::searchcorpus(QString word)
     querystring.append("\"");
     if(!query.exec(querystring))
     {
-        QMessageBox::critical(0, qApp->tr("Cannot open database"),
+        QMessageBox::critical(nullptr, qApp->tr("Cannot open database"),
                               qApp->tr("queryfailed."), QMessageBox::Cancel);
     }
     result+="<ul>";
@@ -275,7 +284,7 @@ void Olam::on_dict_word_textEdited(const QString &arg1)
     querystring.append(" limit 10");
     if(!query.exec(querystring))
     {
-        QMessageBox::critical(0, qApp->tr("Cannot open database"),
+        QMessageBox::critical(nullptr, qApp->tr("Cannot open database"),
                               qApp->tr("queryfailed."), QMessageBox::Cancel);
     }
     QStringList wordList;
@@ -313,7 +322,7 @@ void Olam::on_corpus_word_textEdited(const QString &arg1)
     querystring.append(" limit 10");
     if(!query.exec(querystring))
     {
-        QMessageBox::critical(0, qApp->tr("Cannot open database"),
+        QMessageBox::critical(nullptr, qApp->tr("Cannot open database"),
                               qApp->tr("queryfailed."), QMessageBox::Cancel);
     }
     QStringList wordList;

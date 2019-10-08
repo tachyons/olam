@@ -15,7 +15,7 @@ class Olam : public QMainWindow
     Q_OBJECT
     
 public:
-    explicit Olam(QWidget *parent = 0);
+    explicit Olam(QWidget *parent = nullptr);
     ~Olam();
     
 private slots:
