@@ -41,7 +41,7 @@ QString getResourcePath() {
 #elif defined(Q_OS_OSX)
     return QApplication::applicationDirPath() + "/../Resources/";
 #elif defined(Q_OS_LINUX)
-    return QApplication::applicationDirPath() + "/../share/olam/db";
+    return QDir::cleanPath(QApplication::applicationDirPath() +  "/../share/olam/data/db");
 #else
     return QApplication::applicationDirPath() + "/db";
 #endif
