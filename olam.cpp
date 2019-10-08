@@ -50,8 +50,6 @@ QString getDatukDbPath(){
     return getResourcePath() + "/datuk.sqlite";
 }
 
-
-
 //create connection with db
 bool Olam::createConnection()
 {
@@ -74,33 +72,14 @@ QString Olam::translate(QString text)
 {
     QSqlDatabase db=QSqlDatabase::database("olam");
     db.open();
-    if(!db.isValid())
-    {
-        cout<<"not valid";
-    }
     QSqlQuery query(db);
     QString querystring,word;
-    //QSqlQuery query;
     QStringList words;
     QStringList poss;
     QList<QPair<QString, QString> > entry;
     QList<QPair<QString, QString> >poslist;
-    //initilise pos tags
-    /* QPair <QString, QString>posentry;
-    posentry.first="n";
-    posentry.second="noun";
-    poslist.append(posentry);
-    posentry.first="v";
-    posentry.second="verb";
-    poslist.append(posentry);
-    posentry.first="a";
-    posentry.second="adjective";
-    poslist.append(posentry);
-    posentry.first="adv";
-    posentry.second="adverb";
-    poslist.append(posentry);*/
     //get english word
-    word=ui->dict_word->text();
+    word=text;
     word=word.trimmed();
     //word=text;
     word= word.left(1).toUpper()+word.mid(1);//capitalise first char
@@ -128,7 +107,6 @@ QString Olam::translate(QString text)
     QStringList noun,verb,adj,adverb,other;
     for (int i = 0; i < entry.size(); ++i)
     {
-        //pos=poss.at()
         po = entry.at(i).second;
         if(po=="n")
         {
@@ -160,11 +138,9 @@ QString Olam::translate(QString text)
     result+=printpos("Other",other);
     if(result.isEmpty())
     {
-        result ="The given word not found in the database";
+        result ="<li>No results found</li>";
     }
     return result;
-    //return querystring;
-
 }
 
 void Olam::on_maleng_search_clicked()
@@ -172,28 +148,23 @@ void Olam::on_maleng_search_clicked()
     QString result= translate(ui->dict_word->text());
     if(result.isEmpty())
     {
-        result ="The given word not found in the database";
+        result ="<li>The given word not found in the database</li>";
     }
     ui->dict_result->setText(result);
 }
 
 void Olam::on_malmal_search_clicked()
 {
-
-    //QSqlDatabase::database("corpus");
     QString result;
     result=searchcorpus(ui->corpus_word->text());
     result=result.trimmed();
     ui->corpus_result->setText(result);
 }
+
 QString Olam::searchcorpus(QString word)
 {
     QSqlDatabase db=QSqlDatabase::database("datuk");
     db.open();
-    if(!db.isValid())
-    {
-        cout<<"not valid";
-    }
     QSqlQuery query(db);
     QString querystring,result;
     QStringList deflist;
@@ -221,6 +192,7 @@ QString Olam::searchcorpus(QString word)
     return result;
     //return querystring;
 }
+
 QString Olam::printpos(QString pos,QStringList wordlist)
 {
     QString returnstring;
@@ -260,10 +232,6 @@ void Olam::on_dict_word_textEdited(const QString &arg1)
 {
     QSqlDatabase db=QSqlDatabase::database("olam");
     db.open();
-    if(!db.isValid())
-    {
-        cout<<"not valid";
-    }
     QSqlQuery query(db);
     QString tempword=ui->dict_word->text();
     tempword=tempword.trimmed();
@@ -342,7 +310,7 @@ void Olam::on_dict_word_returnPressed()
     QString result= translate(ui->dict_word->text());
     if(result.isEmpty())
     {
-        result ="The given word not found in the database";
+        result ="<li>The given word not found in the database</li>";
     }
     ui->dict_result->setText(result);
 }
