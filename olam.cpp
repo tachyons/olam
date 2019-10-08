@@ -7,6 +7,7 @@
 #include <QSqlQuery>
 #include <QMessageBox>
 #include <iostream>
+#include <QDir>
 using namespace std;
 Olam::Olam(QWidget *parent) :
     QMainWindow(parent),
@@ -32,6 +33,9 @@ bool fileExists(QString path) {
 }
 
 QString getResourcePath() {
+  if(QDir("db").exists()) {
+    return "./db";
+  }
 #if defined(Q_OS_WIN)
     return QApplication::applicationDirPath() + "/db";
 #elif defined(Q_OS_OSX)
@@ -44,6 +48,7 @@ QString getResourcePath() {
 }
 
 QString getOlamDbPath(){
+  qDebug() << getResourcePath();
    return getResourcePath() + "/olamdb.db";
 }
 QString getDatukDbPath(){
