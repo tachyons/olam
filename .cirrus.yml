@@ -8,6 +8,7 @@ build_task:
     qmake
     make
 release_task:
+  only_if: $CIRRUS_BRANCH == 'master'
   name: release
   script: |
     brew install qt5
