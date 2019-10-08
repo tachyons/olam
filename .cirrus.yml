@@ -7,3 +7,13 @@ check_task:
     brew link qt5 --force
     qmake
     make
+relase_task:
+  script: |
+    brew install qt5
+    brew link qt5 --force
+    qmake -config release
+    make
+    macdeployqt olam.app -dmg
+  binaries_artifacts:
+    path: 'olam.dmg'
+    type: 'application/x-apple-diskimage'

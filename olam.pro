@@ -62,8 +62,10 @@ linux {
     QMAKE_CXXFLAGS += -DVISRULED_DATADIR=$$data.path
 }
 macx{
- # Add file icons into the application bundle resources
+    # Add file icons into the application bundle resources
     DB.files =  db/olamdb.db db/datuk.sqlite
     DB.path = Contents/Resources
     QMAKE_BUNDLE_DATA += DB
+
+    CONFIG += app_bundle
 }
