@@ -1,0 +1,26 @@
+version: 2 # use version 2.0 of CircleCI
+jobs: # a basic unit of work in a run
+  build: # runs not using `Workflows` must have a `build` job as entry point
+    macos:  # indicate that we are using the macOS executor
+      xcode: "10.0.0" # indicate our selected version of Xcode
+    steps: # a series of commands to run
+      - checkout  # pull down code from your version control system.
+      - run:
+          # run our tests using xcode's cli tool `xcodebuild`
+          name: Install QT
+          command: |
+            brew install qt5
+            brew link qt5 --force
+      - run:
+          # build our application
+          name: Build Application
+          command: |
+            qmake
+            make
+      - run:
+          # compress Xcode's build output so that it can be stored as an artifact
+          name: Compress app for storage as zip
+          command: zip -r app.zip olam.app
+      - store_artifacts: # store this build output. Read more: https://circleci.com/docs/2.0/artifacts/
+          path: app.zip
+          destination: app
