@@ -1,19 +1,20 @@
 osx_instance:
   image: mojave-xcode
 
-check_task:
+build_task:
   script: |
     brew install qt5
     brew link qt5 --force
     qmake
     make
-relase_task:
+release_task:
+  name: release
   script: |
     brew install qt5
     brew link qt5 --force
     qmake -config release
     make
     macdeployqt olam.app -dmg
-  binaries_artifacts:
+  build_artifacts:
     path: 'olam.dmg'
     type: 'application/x-apple-diskimage'
