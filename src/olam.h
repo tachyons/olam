@@ -1,6 +1,8 @@
 #ifndef OLAM_H
 #define OLAM_H
 
+#include "olamword.cpp"
+
 #include <QMainWindow>
 #include <QRegExp>
 #include <QDebug>
@@ -27,7 +29,7 @@ private slots:
 
     void on_malmal_search_clicked();
     QString detect_language(QString);
-    QString printpos(QString pos,QStringList wordlist);
+    QString printpos(QString pos,QList<OlamWord> wordlist);
 
     void on_dict_word_textEdited(const QString &arg1);
 

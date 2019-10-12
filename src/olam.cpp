@@ -1,6 +1,7 @@
 #include "olam.h"
 #include "ui_olam.h"
 #include "about.h"
+#include "olamword.h"
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QCompleter>
@@ -73,65 +74,54 @@ bool Olam::createConnection()
 }
 
 //eng-mal or mal-eng
-QString Olam::translate(QString text)
+QString Olam::translate(QString word)
 {
     QSqlDatabase db=QSqlDatabase::database("olam");
     db.open();
     QSqlQuery query(db);
-    QString querystring,word;
-    QStringList words;
-    QStringList poss;
-    QList<QPair<QString, QString> > entry;
-    QList<QPair<QString, QString> >poslist;
-    //get english word
-    word=text;
+    QString querystring;
+    QList<OlamWord> olamWords;
     word=word.trimmed();
-    //word=text;
     word= word.left(1).toUpper()+word.mid(1);//capitalise first char
     QString lang=detect_language(word);
     if(lang=="eng")
     {
-        querystring="select malayalam  , pos from olam where english = \"";
+        querystring=QString("SELECT malayalam, pos from olam where english = '%1'").arg(word);
     }
     else if(lang=="mal")
     {
-        querystring="select english  , pos from olam where malayalam = \"";
+        querystring=QString("SELECT english  , pos from olam where malayalam = '%1'").arg(word);
     }
-    querystring.append(word);
-    querystring.append("\"");
     query.exec(querystring);
-    //int i=0;
     while (query.next())
     {
-        QPair<QString, QString> pair;
-        pair.first =query.value(0).toString();
-        pair.second=query.value(1).toString();
-        entry.append(pair);
+        OlamWord word = *new OlamWord(query.value(0).toString(), query.value(1).toString());
+        olamWords.append(word);
     }
     QString result="",po;
-    QStringList noun,verb,adj,adverb,other;
-    for (int i = 0; i < entry.size(); ++i)
+    QList<OlamWord> noun,verb,adj,adverb,other;
+    for (int i = 0; i < olamWords.size(); ++i)
     {
-        po = entry.at(i).second;
+        po = olamWords.at(i).pos;
         if(po=="n")
         {
-            noun<<entry.at(i).first;
+            noun<<olamWords.at(i);
         }
         else if(po=="v")
         {
-            verb<<entry.at(i).first;
+            verb<<olamWords.at(i);
         }
         else if(po=="a")
         {
-            adj<<entry.at(i).first;
+            adj<<olamWords.at(i);
         }
         else if(po=="adv")
         {
-            adverb<<entry.at(i).first;
+            adverb<<olamWords.at(i);
         }
         else
         {
-            other<<entry.at(i).first;
+            other<<olamWords.at(i);
         }
     }
     QString pos;
@@ -198,7 +188,7 @@ QString Olam::searchcorpus(QString word)
     //return querystring;
 }
 
-QString Olam::printpos(QString pos,QStringList wordlist)
+QString Olam::printpos(QString pos, QList<OlamWord> wordlist)
 {
     QString returnstring;
     if(wordlist.size()!=0)
@@ -209,9 +199,7 @@ QString Olam::printpos(QString pos,QStringList wordlist)
         returnstring+="<ul>";
         for(int i=0;i<wordlist.size();i++)
         {
-            returnstring+="<li>";
-            returnstring+=wordlist.at(i);
-            returnstring+="</li>";
+            returnstring+=wordlist.at(i).toS();
         }
         returnstring+="</ul>";
     }
