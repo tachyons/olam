@@ -22,7 +22,7 @@ AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DisableProgramGroupPage=yes
 OutputBaseFilename=olam-setup
-SetupIconFile=release\misc\olam.ico
+SetupIconFile=build\release\misc\olam.ico
 Compression=lzma
 SolidCompression=yes
 
