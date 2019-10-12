@@ -14,23 +14,23 @@ TARGET = olam
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-        olam.cpp \
-    about.cpp
+SOURCES += src/main.cpp\
+        src/olam.cpp \
+    src/about.cpp
 
-HEADERS  += olam.h \
-    about.h
+HEADERS  += src/olam.h \
+    src/about.h
 
-FORMS    += olam.ui \
-    about.ui
+FORMS    += src/olam.ui \
+    src/about.ui
 
 OTHER_FILES += \
-    db/olamdb.db \
-    db/datuk.sqlite \
+    src/db/olamdb.db \
+    src/db/datuk.sqlite \
     misc/olam.desktop
 
 RESOURCES += \
-    icons.qrc
+    src/icons.qrc
 
 linux {
   isEmpty(PREFIX) {
@@ -48,7 +48,7 @@ linux {
     target.files = $$TARGET
     target.path = $$BINDIR
 
-    data.files = db
+    data.files = src/db
     data.path = $$DATADIR/olam/data
 
 
@@ -61,11 +61,26 @@ linux {
 
     QMAKE_CXXFLAGS += -DVISRULED_DATADIR=$$data.path
 }
+
 macx{
     # Add file icons into the application bundle resources
-    DB.files =  db/olamdb.db db/datuk.sqlite
+    DB.files =  src/db/olamdb.db src/db/datuk.sqlite
     DB.path = Contents/Resources
     QMAKE_BUNDLE_DATA += DB
 
     CONFIG += app_bundle
+}
+
+CONFIG(debug, debug|release) {
+  DESTDIR = build/debug
+  MOC_DIR = build/debug/.moc
+  OBJECTS_DIR = build/debug/.obj
+  RCC_DIR = build/debug/.rcc
+  UI_DIR = build/debug/.ui
+} else {
+  DESTDIR = build/release
+  MOC_DIR = build/release/.moc
+  OBJECTS_DIR = build/release/.obj
+  RCC_DIR = build/release/.rcc
+  UI_DIR = build/release/.ui
 }
