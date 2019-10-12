@@ -10,8 +10,8 @@ build_script:
   - mingw32-make
 after_build:
   - windeployqt --compiler-runtime --release build/release/olam.exe
-  - cp -r src/db release
-  - cp -r src/misc release
+  - cp -r src/db build/release
+  - cp -r src/misc build/release
   - cp LICENSE release
   - iscc olam.iss
 artifacts:
