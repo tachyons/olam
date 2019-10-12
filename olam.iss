@@ -33,19 +33,19 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "release\olam.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\D3Dcompiler_47.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\libGLESV2.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\libstdc++-6.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\opengl32sw.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\Qt5Sql.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\olam.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\D3Dcompiler_47.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\libGLESV2.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\libstdc++-6.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\opengl32sw.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\Qt5Sql.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 Source: "release\iconengines\*"; DestDir: "{app}\iconengines"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "release\imageformats\*"; DestDir: "{app}\imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
