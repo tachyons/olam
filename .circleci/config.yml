@@ -20,7 +20,7 @@ jobs: # a basic unit of work in a run
       - run:
           # compress Xcode's build output so that it can be stored as an artifact
           name: Compress app for storage as zip
-          command: zip -r app.zip olam.app
+          command: zip -r app.zip build/release/olam.app
       - store_artifacts: # store this build output. Read more: https://circleci.com/docs/2.0/artifacts/
           path: app.zip
           destination: app

@@ -9,7 +9,7 @@ build_script:
   - qmake olam.pro
   - mingw32-make
 after_build:
-  - windeployqt --compiler-runtime --release release/olam.exe
+  - windeployqt --compiler-runtime --release release/olam.exe --dir build/release
   - cp -r db release
   - cp -r misc release
   - cp LICENSE release
