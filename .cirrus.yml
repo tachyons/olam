@@ -15,7 +15,7 @@ release_task:
     brew link qt5 --force
     qmake -config release
     make
-    macdeployqt olam.app -dmg
+    macdeployqt build/release/olam.app -dmg
   build_artifacts:
     path: 'olam.dmg'
     type: 'application/x-apple-diskimage'

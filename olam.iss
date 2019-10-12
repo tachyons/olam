@@ -22,7 +22,7 @@ AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DisableProgramGroupPage=yes
 OutputBaseFilename=olam-setup
-SetupIconFile=release\misc\olam.ico
+SetupIconFile=build\release\misc\olam.ico
 Compression=lzma
 SolidCompression=yes
 
@@ -33,27 +33,27 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "release\olam.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\D3Dcompiler_47.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\libGLESV2.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\libstdc++-6.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\opengl32sw.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\Qt5Sql.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\olam.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\D3Dcompiler_47.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\libGLESV2.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\libstdc++-6.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\opengl32sw.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\Qt5Sql.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion
 
-Source: "release\iconengines\*"; DestDir: "{app}\iconengines"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "release\imageformats\*"; DestDir: "{app}\imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "release\platforms\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "release\translations\*"; DestDir: "{app}\translations"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "release\styles\*"; DestDir: "{app}\styles"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "release\db\*"; DestDir: "{app}\db"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "release\sqldrivers\*"; DestDir: "{app}\sqldrivers"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "build\release\iconengines\*"; DestDir: "{app}\iconengines"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "build\release\imageformats\*"; DestDir: "{app}\imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "build\release\platforms\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "build\release\translations\*"; DestDir: "{app}\translations"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "build\release\styles\*"; DestDir: "{app}\styles"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "build\release\db\*"; DestDir: "{app}\db"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "build\release\sqldrivers\*"; DestDir: "{app}\sqldrivers"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
