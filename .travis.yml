@@ -22,6 +22,7 @@ addons:
    - name: snapcraft
      channel: stable
      confinement: classic
+     classic: true
    - name: lxd
      channel: stable
 
@@ -42,7 +43,7 @@ script:
   - sudo /snap/bin/lxd waitready
   - sudo /snap/bin/lxd init --auto
   - 'if [ -n "$SOURCE_TAG" ]; then sed -i "s/source-branch.*/source-tag: $SOURCE_TAG/" snapcraft.yaml ; fi'
-  - sudo snapcraft
+  - sudo snapcraft --use-lxd
 
 after_success:
   - make -C test coverage
