@@ -1,9 +1,10 @@
 name: olam  # the name of the snap
-version: '1.2'  # the version of the snap
+version: git  # the version of the snap
 summary: Olam English Malayalam Dictionary   # 79 char long summary
 description: Unofficial Olam desktop client for ubuntu # a longer description for the snap
 confinement: strict  # use "strict" to enforce system access only via declared interfaces
 base: core18
+license: GPL-3.0
 
 apps:
   olam:
