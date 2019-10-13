@@ -1,5 +1,7 @@
 Olam
 ====
+[![Olam](https://snapcraft.io/olam/badge.svg)](https://snapcraft.io/olam)
+
 [![Build Status](https://travis-ci.org/tachyons/olam.svg?branch=master)](https://travis-ci.org/tachyons/olam)
 [![Build status](https://ci.appveyor.com/api/projects/status/4rb9tmxph6u9qj27?svg=true)](https://ci.appveyor.com/project/tachyons/olam)
 [![Snap Status](https://build.snapcraft.io/badge/tachyons/olam.svg)](https://build.snapcraft.io/user/tachyons/olam)
