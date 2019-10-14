@@ -13,6 +13,9 @@ Olam free and open source English Malayalam repository with Qt gui
 * Malayalam Malayalam
 
 # Building from source
+
+## Ubuntu
+
 1. Get latest release from GitHub by cloning the repo:  
     `$ git clone https://github.com/tachyons/olam.git`  
 2. Change to repo directory:  
