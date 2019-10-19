@@ -17,10 +17,12 @@ TEMPLATE = app
 SOURCES += src/main.cpp\
         src/olam.cpp \
     src/about.cpp \
+    src/olamdatabase.cpp \
     src/olamword.cpp
 
 HEADERS  += src/olam.h \
     src/about.h \
+    src/olamdatabase.h \
     src/olamword.h
 
 FORMS    += src/olam.ui \
