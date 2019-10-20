@@ -41,8 +41,7 @@ QStringList OlamDatabase::suggestions(QString word)
 
     QStringList wordList;
     while (query.next()) {
-        QString word = query.value(0).toString();
-        wordList << word;
+        wordList << query.value(0).toString();
     }
     this->db.close();
     return wordList;

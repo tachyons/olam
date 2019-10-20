@@ -247,7 +247,7 @@ void Olam::on_corpus_word_textEdited(const QString &arg1)
     db.open();
     if(!db.isValid())
     {
-        cout<<"not valid";
+        qDebug() <<"not valid";
     }
     QSqlQuery query(db);
     QString tempword=ui->corpus_word->text();
