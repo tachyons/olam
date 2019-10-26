@@ -1,3 +1,6 @@
+#ifndef TEST_OLAM_WORD_TEST_H_
+#define TEST_OLAM_WORD_TEST_H_
+
 #include <QObject>
 #include <QtTest>
 
@@ -7,17 +10,13 @@ class OlamWordTest : public QObject {
   Q_OBJECT
 
  private:
-  bool myCondition() { return true; }
-
  private slots:
   void initTestCase() { qDebug("Init test"); }
 
-  void formattingTest() {
-    OlamWord word = *new OlamWord("word", "poc");
-    QCOMPARE(word.toS(), "<li>word</li>");
-  }
+  void formattingTest();
 
   void cleanupTestCase() { qDebug("Cleaning up"); }
 };
 // QTEST_MAIN(OlamWordTest)
-#include "test_olam_word.moc"
+
+#endif  // TEST_OLAM_WORD_TEST_H_

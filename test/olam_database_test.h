@@ -1,3 +1,6 @@
+#ifndef TEST_OLAM_DATABASE_TEST_H_
+#define TEST_OLAM_DATABASE_TEST_H_
+
 #include <QObject>
 #include <QtTest>
 
@@ -7,18 +10,13 @@ class OlamDatabaseTest : public QObject {
   Q_OBJECT
 
  private:
-  bool myCondition() { return true; }
-
  private slots:
   void initTestCase() { qDebug("Init test"); }
 
-  void suggestionsTest() {
-    OlamDatabase db = *new OlamDatabase;
-    QStringList suggestions = {};
-    QCOMPARE(db.suggestions("cat"), suggestions);
-  }
+  void suggestionsTest();
 
   void cleanupTestCase() { qDebug("Cleaning up"); }
 };
 // QTEST_MAIN(OlamDatabaseTest)
-#include "test_olam_database.moc"
+
+#endif  // TEST_OLAM_DATABASE_TEST_H_

@@ -3,20 +3,15 @@
 
 #include <QString>
 
+class OlamWord {
+ public:
+  QString word, pos;
+  OlamWord(QString word, QString pos) {
+    this->word = word;
+    this->pos = pos;
+  }
 
-
-class OlamWord
-{
-public:
-    QString word, pos;
-    OlamWord(QString word,QString pos) {
-        this->word = word;
-        this->pos = pos;
-    }
-
-    QString toS() const{
-        return "<li>" + word + "</li>";
-    }
+  QString toS() const { return "<li>" + word + "</li>"; }
 };
 
-#endif // OLAMWORD_H
+#endif  // OLAMWORD_H

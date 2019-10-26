@@ -38,9 +38,11 @@ test {
     CONFIG += testcase
     TEMPLATE = app
     TARGET = olam_test
+    HEADERS += test/olam_database_test.h \
+      test/olam_word_test.h
     SOURCES += test/main.cpp \
-      test/test_olam_word.cpp \
-      test/test_olam_database.cpp
+      test/olam_database_test.cpp \
+      test/olam_word_test.cpp \
 
     SOURCES -= src/main.cpp
     QT+= testlib

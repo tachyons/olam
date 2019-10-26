@@ -1,8 +1,7 @@
 #include <QTest>
-#include <QtTest/QtTest>
 
-#include "test_olam_database.cpp"
-#include "test_olam_word.cpp"
+#include "test/olam_database_test.h"
+#include "test/olam_word_test.h"
 
 int main(int argc, char *argv[]) {
   int status = 0;
