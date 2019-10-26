@@ -7,6 +7,15 @@ build_task:
     brew link qt5 --force
     qmake
     make
+
+test_task:
+  script: |
+    brew install qt5
+    brew link qt5 --force
+    qmake  "CONFIG +=test"
+    make
+    make check
+
 release_task:
   only_if: $CIRRUS_BRANCH == 'master'
   name: release

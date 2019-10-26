@@ -3,16 +3,14 @@
 
 #include <QSqlDatabase>
 
+class OlamDatabase {
+ private:
+  QSqlDatabase db;
+  QString detect_language(QString word);
 
-
-class OlamDatabase
-{
-private:
-    QSqlDatabase db;
-    QString detect_language(QString word);
-public:
-    OlamDatabase();
-    QStringList suggestions(QString word);
+ public:
+  OlamDatabase();
+  QStringList suggestions(QString word);
 };
 
-#endif // OLAMDATABASE_H
+#endif  // OLAMDATABASE_H
