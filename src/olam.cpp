@@ -2,6 +2,7 @@
 #include "ui_olam.h"
 #include "about.h"
 #include "olamword.h"
+#include "olamdatabase.h"
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QCompleter>
@@ -95,6 +96,7 @@ QString Olam::translate(QString word)
     query.exec(querystring);
     while (query.next())
     {
+
         OlamWord word = *new OlamWord(query.value(0).toString(), query.value(1).toString());
         olamWords.append(word);
     }
@@ -164,9 +166,7 @@ QString Olam::searchcorpus(QString word)
     QString querystring,result;
     QStringList deflist;
     word=word.trimmed();
-    querystring="select definition,rtype,letter from word,relation,definition where word.id = relation.id_word AND relation.id_definition = definition.id and word =\"";
-    querystring.append(word);
-    querystring.append("\"");
+    querystring=QString("select definition,rtype,letter from word,relation,definition where word.id = relation.id_word AND relation.id_definition = definition.id and word ='%1'").arg(word);
     if(!query.exec(querystring))
     {
         QMessageBox::critical(nullptr, qApp->tr("Cannot open database"),
@@ -183,6 +183,10 @@ QString Olam::searchcorpus(QString word)
         result+="</li>";
     }
     result+="</ul>";
+    if(result.isEmpty())
+    {
+        result ="<li>No results found</li>";
+    }
     db.close();
     return result;
     //return querystring;
@@ -223,37 +227,9 @@ QString Olam::detect_language(QString text)
 
 void Olam::on_dict_word_textEdited(const QString &arg1)
 {
-    QSqlDatabase db=QSqlDatabase::database("olam");
-    db.open();
-    QSqlQuery query(db);
-    QString tempword=ui->dict_word->text();
-    tempword=tempword.trimmed();
-    QString lang=detect_language(tempword);
-    QString querystring;
-    if(lang=="eng")
-    {
-        querystring="select DISTINCT english from olam where english like '";
-        tempword= tempword.left(1).toUpper()+tempword.mid(1);//capitalise first char
-    }
-    else if(lang=="mal")
-    {
-        querystring="select DISTINCT malayalam from olam where malayalam like '";
-    }
-
-    querystring+=tempword;
-    querystring.append("%'");
-    querystring.append(" limit 10");
-    if(!query.exec(querystring))
-    {
-        QMessageBox::critical(nullptr, qApp->tr("Cannot open database"),
-                              qApp->tr("queryfailed."), QMessageBox::Cancel);
-    }
-    QStringList wordList;
-    while (query.next()) {
-        QString word = query.value(0).toString();
-        wordList <<word;
-        //result.append("\n");
-    }
+    QString word = ui->dict_word->text().trimmed();
+    OlamDatabase olamDatabase = *new OlamDatabase();
+    QStringList wordList = olamDatabase.suggestions(word);
     QCompleter *completer = new QCompleter(wordList, this);
     completer->setCaseSensitivity(Qt::CaseInsensitive);
     ui->dict_word->setCompleter(completer);
@@ -271,7 +247,7 @@ void Olam::on_corpus_word_textEdited(const QString &arg1)
     db.open();
     if(!db.isValid())
     {
-        cout<<"not valid";
+        qDebug() <<"not valid";
     }
     QSqlQuery query(db);
     QString tempword=ui->corpus_word->text();

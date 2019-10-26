@@ -8,7 +8,7 @@ QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-QMAKE_CXXFLAGS += -std=c++0x
+CONFIG += qt c++11
 
 TARGET = olam
 TEMPLATE = app
@@ -17,10 +17,12 @@ TEMPLATE = app
 SOURCES += src/main.cpp\
         src/olam.cpp \
     src/about.cpp \
+    src/olamdatabase.cpp \
     src/olamword.cpp
 
 HEADERS  += src/olam.h \
     src/about.h \
+    src/olamdatabase.h \
     src/olamword.h
 
 FORMS    += src/olam.ui \
@@ -30,6 +32,21 @@ OTHER_FILES += \
     src/db/olamdb.db \
     src/db/datuk.sqlite \
     misc/olam.desktop
+
+test {
+    message(Configuring test build...)
+    CONFIG += testcase
+    TEMPLATE = app
+    TARGET = olam_test
+    HEADERS += test/olam_database_test.h \
+      test/olam_word_test.h
+    SOURCES += test/main.cpp \
+      test/olam_database_test.cpp \
+      test/olam_word_test.cpp \
+
+    SOURCES -= src/main.cpp
+    QT+= testlib
+}
 
 RESOURCES += \
     src/icons.qrc

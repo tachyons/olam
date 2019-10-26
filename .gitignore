@@ -1,4 +1,5 @@
 Makefile
+Makefile.*
 olam.pro.*
 *.snap
 parts/
@@ -11,4 +12,5 @@ olam
 olam.app/
 qrc_qmake_qmake_immediate.cpp
 olam.dmg
+*wrapper.sh
 build/
