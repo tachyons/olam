@@ -26,5 +26,5 @@ release_task:
     make
     macdeployqt build/release/olam.app -dmg
   build_artifacts:
-    path: 'olam.dmg'
+    path: 'build/release/olam.dmg'
     type: 'application/x-apple-diskimage'
