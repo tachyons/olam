@@ -162,7 +162,7 @@
   <action name="action_Exit">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/new/prefix1/icons/application-exit.svg</normaloff>:/new/prefix1/icons/application-exit.svg</iconset>
+     <normaloff>:/resources/icons/application-exit.svg</normaloff>:/resources/icons/application-exit.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Exit</string>
@@ -171,7 +171,7 @@
   <action name="action_About">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/new/prefix1/icons/help-about.svg</normaloff>:/new/prefix1/icons/help-about.svg</iconset>
+     <normaloff>:/resources/icons/help-about.svg</normaloff>:/resources/icons/help-about.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;About</string>

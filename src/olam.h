@@ -20,6 +20,8 @@ class Olam : public QMainWindow {
   explicit Olam(QWidget *parent = nullptr);
   ~Olam();
 
+  void setupTrayIcon();
+
  private slots:
 
   bool createConnection();
@@ -44,6 +46,7 @@ class Olam : public QMainWindow {
   void on_action_Exit_triggered();
 
   void on_corpus_word_returnPressed();
+  void openHelpUrl();
 
  private:
   Ui::Olam *ui;

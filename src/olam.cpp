@@ -1,18 +1,44 @@
 #include "olam.h"
 
 #include <QCompleter>
+#include <QDesktopServices>
 #include <QDir>
 #include <QLocale>
 #include <QMessageBox>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
+#include <QSystemTrayIcon>
 #include <QTextToSpeech>
+#include <QWindow>
 
 #include "about.h"
 #include "olamdatabase.h"
 #include "ui_olam.h"
 using namespace std;
+void Olam::setupTrayIcon() {
+  QSystemTrayIcon *trayIcon = new QSystemTrayIcon;
+  QMenu *trayIconMenu = new QMenu;
+  QIcon icon = QIcon(":/resources/logo");
+  try {
+    trayIcon->setIcon(icon);
+    window()->setWindowIcon(icon);
+    trayIcon->setToolTip("Unofficial Olam English Malayalam Dictionary");
+    trayIconMenu->addAction("About", new About, SLOT(show()));
+    trayIconMenu->addAction("Help", this, SLOT(openHelpUrl()));
+    trayIconMenu->addSeparator();
+    trayIconMenu->addAction("Exit", QApplication::instance(), SLOT(quit()));
+    trayIcon->setContextMenu(trayIconMenu);
+    trayIcon->show();
+  } catch (std::exception) {
+    qDebug() << "Failed to initialize tray icon";
+  }
+}
+
+void Olam::openHelpUrl() {
+  QDesktopServices::openUrl(QUrl("https://github.com/tachyons/olam"));
+}
+
 Olam::Olam(QWidget *parent) : QMainWindow(parent), ui(new Ui::Olam) {
   ui->setupUi(this);
   createConnection();
@@ -23,6 +49,8 @@ Olam::Olam(QWidget *parent) : QMainWindow(parent), ui(new Ui::Olam) {
 
   QObject::connect(ui->dict_result, SIGNAL(anchorClicked(QUrl)), this,
                    SLOT(handleLink(QUrl)));
+
+  setupTrayIcon();
 }
 
 Olam::~Olam() { delete ui; }
