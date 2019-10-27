@@ -18,7 +18,7 @@ before_install:
   - sudo apt-get update -qq
 
 install:
-  - sudo apt-get install -qq cppcheck doxygen graphviz lcov qt5-qmake qtbase5-dev 
+  - sudo apt-get install -qq cppcheck doxygen graphviz lcov qt5-qmake qtbase5-dev libqt5texttospeech5-dev 
 
 before_script:
   - qmake "CONFIG +=test"
