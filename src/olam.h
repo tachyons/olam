@@ -1,51 +1,52 @@
 #ifndef OLAM_H
 #define OLAM_H
 
-#include "olamword.cpp"
-
-#include <QMainWindow>
-#include <QRegExp>
 #include <QDebug>
 #include <QFileInfo>
+#include <QMainWindow>
+#include <QRegExp>
+#include <QUrl>
+
+#include "olamword.cpp"
 
 namespace Ui {
 class Olam;
 }
 
-class Olam : public QMainWindow
-{
-    Q_OBJECT
-    
-public:
-    explicit Olam(QWidget *parent = nullptr);
-    ~Olam();
-    
-private slots:
+class Olam : public QMainWindow {
+  Q_OBJECT
 
-    bool createConnection();
-    QString translate(QString text);
+ public:
+  explicit Olam(QWidget *parent = nullptr);
+  ~Olam();
 
-    void on_maleng_search_clicked();
+ private slots:
 
-    void on_malmal_search_clicked();
-    QString detect_language(QString);
-    QString printpos(QString pos,QList<OlamWord> wordlist);
+  bool createConnection();
+  QString translate(QString text);
+  QString translate(QUrl word);
 
-    void on_dict_word_textEdited(const QString &arg1);
+  void on_maleng_search_clicked();
 
-    void on_action_About_triggered();
-    QString searchcorpus(QString word);
+  void on_malmal_search_clicked();
+  QString detect_language(QString);
+  QString printpos(QString pos, QList<OlamWord> wordlist);
 
-    void on_corpus_word_textEdited(const QString &arg1);
+  void on_dict_word_textEdited(const QString &arg1);
 
-    void on_dict_word_returnPressed();
+  void on_action_About_triggered();
+  QString searchcorpus(QString word);
 
-    void on_action_Exit_triggered();
+  void on_corpus_word_textEdited(const QString &arg1);
 
-    void on_corpus_word_returnPressed();
+  void on_dict_word_returnPressed();
 
-private:
-    Ui::Olam *ui;
+  void on_action_Exit_triggered();
+
+  void on_corpus_word_returnPressed();
+
+ private:
+  Ui::Olam *ui;
 };
 
-#endif // OLAM_H
+#endif  // OLAM_H
