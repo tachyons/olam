@@ -11,7 +11,10 @@ class OlamWord {
     this->pos = pos;
   }
 
-  QString toS() const { return "<li>" + word + "</li>"; }
+  QString toS() const {
+    return "<li>" + word + "<a style= 'text-decoration: none;' href=" + word +
+           ">🔎</a></li>";
+  }
 };
 
 #endif  // OLAMWORD_H
