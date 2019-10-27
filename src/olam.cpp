@@ -2,14 +2,15 @@
 
 #include <QCompleter>
 #include <QDir>
+#include <QLocale>
 #include <QMessageBox>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
+#include <QTextToSpeech>
 
 #include "about.h"
 #include "olamdatabase.h"
-#include "olamword.h"
 #include "ui_olam.h"
 using namespace std;
 Olam::Olam(QWidget *parent) : QMainWindow(parent), ui(new Ui::Olam) {
@@ -21,7 +22,7 @@ Olam::Olam(QWidget *parent) : QMainWindow(parent), ui(new Ui::Olam) {
   ui->dict_result->setFont(font);
 
   QObject::connect(ui->dict_result, SIGNAL(anchorClicked(QUrl)), this,
-                   SLOT(translate(QUrl)));
+                   SLOT(handleLink(QUrl)));
 }
 
 Olam::~Olam() { delete ui; }
@@ -69,14 +70,24 @@ bool Olam::createConnection() {
 
   return true;
 }
-QString Olam::translate(QUrl word) {
-  ui->dict_word->setText(word.toString());
-  ui->maleng_search->click();
-  return word.toString();
+void Olam::handleLink(QUrl link) {
+  QString action = link.toString().split(":")[0];
+  QString word = link.toString().split(":")[1];
+  qDebug() << word;
+
+  if (action == "translate") {
+    ui->dict_word->setText(word);
+    ui->maleng_search->click();
+  } else if (action == "speak") {
+    QTextToSpeech *tt = new QTextToSpeech();
+    tt->setLocale(QLocale::Malayalam);
+    tt->say(word);
+    ui->maleng_search->click();
+  }
 }
 
 // eng-mal or mal-eng
-QString Olam::translate(QString word) {
+QString Olam::handleLink(QString word) {
   QSqlDatabase db = QSqlDatabase::database("olam");
   db.open();
   QSqlQuery query(db);
@@ -130,7 +141,7 @@ QString Olam::translate(QString word) {
 }
 
 void Olam::on_maleng_search_clicked() {
-  QString result = translate(ui->dict_word->text());
+  QString result = handleLink(ui->dict_word->text());
   if (result.isEmpty()) {
     result = "<li>The given word not found in the database</li>";
   }
@@ -250,7 +261,7 @@ void Olam::on_corpus_word_textEdited(const QString &arg1) {
 }
 
 void Olam::on_dict_word_returnPressed() {
-  QString result = translate(ui->dict_word->text());
+  QString result = handleLink(ui->dict_word->text());
   if (result.isEmpty()) {
     result = "<li>The given word not found in the database</li>";
   }
