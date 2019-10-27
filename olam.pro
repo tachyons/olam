@@ -33,6 +33,8 @@ OTHER_FILES += \
     src/db/datuk.sqlite \
     misc/olam.desktop
 
+RC_ICONS = src/misc/olam.ico
+
 test {
     message(Configuring test build...)
     CONFIG += testcase
@@ -88,6 +90,8 @@ macx{
     QMAKE_BUNDLE_DATA += DB
 
     CONFIG += app_bundle
+    ICON = olam.icns
+    QMAKE_INFO_PLIST = Info.plist
 }
 
 CONFIG(debug, debug|release) {
