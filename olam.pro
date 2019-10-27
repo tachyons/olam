@@ -6,7 +6,7 @@
 
 QT       += core gui sql texttospeech
 
-greaterThan(QT_MAJOR_VERSION, 5): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += qt c++11
 
