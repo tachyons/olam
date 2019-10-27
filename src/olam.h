@@ -7,7 +7,7 @@
 #include <QRegExp>
 #include <QUrl>
 
-#include "olamword.cpp"
+#include "olamword.h"
 
 namespace Ui {
 class Olam;
@@ -23,8 +23,8 @@ class Olam : public QMainWindow {
  private slots:
 
   bool createConnection();
-  QString translate(QString text);
-  QString translate(QUrl word);
+  QString handleLink(QString text);
+  void handleLink(QUrl word);
 
   void on_maleng_search_clicked();
 

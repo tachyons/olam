@@ -45,6 +45,7 @@ Source: "build\release\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "build\release\Qt5Sql.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "build\release\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "build\release\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\Qt5TextToSpeech.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "build\release\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 Source: "build\release\iconengines\*"; DestDir: "{app}\iconengines"; Flags: ignoreversion recursesubdirs createallsubdirs
@@ -54,6 +55,7 @@ Source: "build\release\translations\*"; DestDir: "{app}\translations"; Flags: ig
 Source: "build\release\styles\*"; DestDir: "{app}\styles"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "build\release\db\*"; DestDir: "{app}\db"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "build\release\sqldrivers\*"; DestDir: "{app}\sqldrivers"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "build\release\texttospeech\*"; DestDir: "{app}\texttospeech"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

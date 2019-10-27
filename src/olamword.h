@@ -11,10 +11,12 @@ class OlamWord {
     this->pos = pos;
   }
 
-  QString toS() const {
-    return "<li>" + word + "<a style= 'text-decoration: none;' href=" + word +
-           ">🔎</a></li>";
-  }
+  QString toS() const;
+
+ private:
+  QString wordLink() const;
+  QString soundLink() const;
+  QString normalisedWord() const;
 };
 
 #endif  // OLAMWORD_H

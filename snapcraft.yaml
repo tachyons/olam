@@ -45,12 +45,14 @@ parts:
           - qttools5-dev
           - build-essential
           - qttools5-dev-tools
+          - libqt5texttospeech5-dev
         stage-packages:
           - libqt5core5a
           - libqt5gui5
           - libqt5widgets5
           - libqt5dbus5
           - libqt5svg5
+          - libqt5texttospeech5
           - libreadline7
           - libcanberra-gtk-module
           - liblua5.2-0

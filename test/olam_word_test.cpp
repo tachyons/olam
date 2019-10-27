@@ -2,6 +2,8 @@
 
 void OlamWordTest::formattingTest() {
   OlamWord word = *new OlamWord("word", "poc");
-  QCOMPARE(word.toS(), QString("<li>word<a style= 'text-decoration: none;' "
-                               "href=word>🔎</a></li>"));
+  QCOMPARE(word.toS(),
+           QString("<li>word<a style= 'text-decoration: none;' "
+                   "href=translate:word>🔎</a><a style= 'text-decoration: n"
+                   "one;' href=speak:word>🗣<a></li>"));
 }
