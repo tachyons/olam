@@ -15,6 +15,13 @@ after_build:
   - cp LICENSE release
   - iscc olam.iss
 artifacts:
-  - path: release
+  - path: build/release
     type: zip
   - path: Output\olam-*.exe
+  
+deploy:
+  provider: GitHub
+  draft: true
+  prerelease: false
+  on:
+    branch: master
