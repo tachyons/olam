@@ -14,7 +14,7 @@ jobs:
     - name: Install Linux packages
       run: sudo apt update && sudo apt install -y --no-install-recommends libgl1-mesa-dev
     - name: qmake
-      run: qmake
+      run: qmake "CONFIG +=test"
     - name: make
       run: make
     - name: make check
