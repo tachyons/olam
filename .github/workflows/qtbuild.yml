@@ -1,0 +1,21 @@
+name: C/C++ CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v1
+    - name: Install Linux packages
+      run: sudo apt update && sudo apt install -y --no-install-recommends libgl1-mesa-dev
+    - name: qmake
+      run: qmake
+    - name: make
+      run: make
+    - name: make check
+      run: make check
