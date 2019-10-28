@@ -6,5 +6,5 @@ Version=1.1
 GenericName=Dictionary
 Categories=Utility;Languages;Accessories;
 Exec=olam
-Icon=${SNAP}/usr/share/icons/olam.png
+Icon=/usr/share/icons/olam.png
 Name[en_IN]= Olam
