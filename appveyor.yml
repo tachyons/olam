@@ -22,6 +22,8 @@ artifacts:
 deploy:
   provider: GitHub
   draft: true
+  auth_token:
+    secure: WObGXwAtWwPh+QNp7LcD/YIKjIS81gvSYUni5bDiXRhu9/YaYDcs2Bxzy5MEUPDZ
   prerelease: false
   on:
     branch: master
