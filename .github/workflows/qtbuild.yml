@@ -9,7 +9,7 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
-    - name: Install Qt
+    - name: Install Qt deps
       uses: jurplel/install-qt-action@v1
     - name: Install Linux packages
       run: sudo apt update && sudo apt install -y --no-install-recommends libgl1-mesa-dev
