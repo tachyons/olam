@@ -8,7 +8,9 @@ license: GPL-3.0
 
 apps:
   olam:
-    command: bin/desktop-launch olam
+    command: olam
+    command-chain:
+      - bin/desktop-launch
     plugs:
      - unity7
      - desktop
@@ -38,6 +40,8 @@ parts:
         source: .
         #source: https://github.com/tachyons/olam.git
         plugin: qmake
+        options: 
+          - DESTDIR = .
         qt-version: qt5
         build-packages:
           - qt5-default

@@ -94,16 +94,18 @@ macx{
     QMAKE_INFO_PLIST = Info.plist
 }
 
+
 CONFIG(debug, debug|release) {
-  DESTDIR = build/debug
-  MOC_DIR = build/debug/.moc
-  OBJECTS_DIR = build/debug/.obj
-  RCC_DIR = build/debug/.rcc
-  UI_DIR = build/debug/.ui
-} else {
-  DESTDIR = build/release
-  MOC_DIR = build/release/.moc
-  OBJECTS_DIR = build/release/.obj
-  RCC_DIR = build/release/.rcc
-  UI_DIR = build/release/.ui
-}
+  isEmpty(DESTDIR) {
+    DESTDIR = build/debug
+    }
+  } else {
+
+  isEmpty(DESTDIR) {
+    DESTDIR = build/release
+    }
+ }
+MOC_DIR = $$DESTDIR/.moc
+OBJECTS_DIR = $$DESTDIR/.obj
+RCC_DIR = $$DESTDIR/.rcc
+UI_DIR = $$DESTDIR/.ui
