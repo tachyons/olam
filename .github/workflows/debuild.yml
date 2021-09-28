@@ -14,4 +14,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build Debian package
-      uses: dawidd6/action-debian-package@v1.0.1
+      uses: dawidd6/action-debian-package@v1
