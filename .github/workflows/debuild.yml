@@ -1,0 +1,17 @@
+name: Build debian package
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  release:
+    types: [ created ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build Debian package
+      uses: dawidd6/action-debian-package@v1.0.1
