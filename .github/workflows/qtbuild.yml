@@ -31,15 +31,21 @@ jobs:
         uses: jurplel/install-qt-action@v2
         with:
           version: ${{env.QT_VERSION}}
-      - name: Build
+      - name: Test
         run: |
           qmake "CONFIG +=test"
           make
           make check
+      - name: Build
+        run: |
+          make clean
+          qmake 
+          make
+          make check   
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: dist-without-markdown
+          name: app.zip
           path: |
             build/release/olam.app
             build/release
