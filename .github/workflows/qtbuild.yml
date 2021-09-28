@@ -4,14 +4,12 @@ on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: [ubuntu-latest, 	macos-latest, windows-latest]
     
     steps:
     - uses: actions/checkout@v1
     - name: Install Qt deps
       uses: jurplel/install-qt-action@v2
-    - name: Install Linux packages
-      run: sudo apt update && sudo apt install -y --no-install-recommends libgl1-mesa-dev
     - name: qmake
       run: qmake "CONFIG +=test"
     - name: make
