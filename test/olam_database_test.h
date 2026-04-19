@@ -1,5 +1,4 @@
-#ifndef TEST_OLAM_DATABASE_TEST_H_
-#define TEST_OLAM_DATABASE_TEST_H_
+#pragma once
 
 #include <QObject>
 #include <QtTest>
@@ -7,16 +6,13 @@
 #include "src/olamdatabase.h"
 
 class OlamDatabaseTest : public QObject {
-  Q_OBJECT
+    Q_OBJECT
 
- private:
- private slots:
-  void initTestCase() { qDebug("Init test"); }
+private slots:
+    // detect_language — pure function, no DB needed
+    void detect_language_data();
+    void detect_language();
 
-  void suggestionsTest();
-
-  void cleanupTestCase() { qDebug("Cleaning up"); }
+    // suggestions — needs DB; verified to not crash; may return empty in CI
+    void suggestions_no_crash();
 };
-// QTEST_MAIN(OlamDatabaseTest)
-
-#endif  // TEST_OLAM_DATABASE_TEST_H_

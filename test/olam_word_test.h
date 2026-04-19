@@ -1,5 +1,4 @@
-#ifndef TEST_OLAM_WORD_TEST_H_
-#define TEST_OLAM_WORD_TEST_H_
+#pragma once
 
 #include <QObject>
 #include <QtTest>
@@ -7,16 +6,12 @@
 #include "src/olamword.h"
 
 class OlamWordTest : public QObject {
-  Q_OBJECT
+    Q_OBJECT
 
- private:
- private slots:
-  void initTestCase() { qDebug("Init test"); }
-
-  void formattingTest();
-
-  void cleanupTestCase() { qDebug("Cleaning up"); }
+private slots:
+    void normalise_plain();
+    void normalise_spaces();
+    void toS_structure();
+    void toS_exact();
+    void toS_with_spaces();
 };
-// QTEST_MAIN(OlamWordTest)
-
-#endif  // TEST_OLAM_WORD_TEST_H_
