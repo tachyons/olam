@@ -2,7 +2,7 @@ name: QT CI
 
 on: [push, pull_request]
 env:
-    QT_VERSION: '5.14.2'
+    QT_VERSION: '6.7.2'
 
 jobs:
   linux:
@@ -10,11 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Install Qt
-        uses: jurplel/install-qt-action@v2
+        uses: jurplel/install-qt-action@v4
         with:
           version: ${{env.QT_VERSION}}
+          modules: 'qtspeech'
       - name: Build
         run: |
           qmake "CONFIG +=test"
@@ -26,11 +27,12 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Checkout sources
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Install Qt
-        uses: jurplel/install-qt-action@v2
+        uses: jurplel/install-qt-action@v4
         with:
           version: ${{env.QT_VERSION}}
+          modules: 'qtspeech'
       - name: Test
         run: |
           qmake "CONFIG +=test"
@@ -39,11 +41,10 @@ jobs:
       - name: Build
         run: |
           make clean
-          qmake 
+          qmake
           make
-          make check   
       - name: Archive production artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: app.zip
           path: |
@@ -55,14 +56,15 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout sources
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Install Qt
-        uses: jurplel/install-qt-action@v2
+        uses: jurplel/install-qt-action@v4
         with:
           version: ${{env.QT_VERSION}}
+          modules: 'qtspeech'
       - name: Build
         run: |
-          call "%programfiles(x86)%\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+          call "%programfiles%\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
           qmake "CONFIG +=test"
           nmake
           nmake check
