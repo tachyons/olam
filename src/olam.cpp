@@ -3,6 +3,7 @@
 #include <QCompleter>
 #include <QDesktopServices>
 #include <QDir>
+#include <QFileInfo>
 #include <QLocale>
 #include <QMessageBox>
 #include <QSqlDatabase>
@@ -10,12 +11,11 @@
 #include <QSqlQuery>
 #include <QSystemTrayIcon>
 #include <QTextToSpeech>
-#include <QWindow>
 
 #include "about.h"
 #include "olamdatabase.h"
 #include "ui_olam.h"
-using namespace std;
+
 void Olam::setupTrayIcon() {
   QSystemTrayIcon *trayIcon = new QSystemTrayIcon;
   QMenu *trayIconMenu = new QMenu;
@@ -30,8 +30,8 @@ void Olam::setupTrayIcon() {
     trayIconMenu->addAction("Exit", QApplication::instance(), SLOT(quit()));
     trayIcon->setContextMenu(trayIconMenu);
     trayIcon->show();
-  } catch (std::exception) {
-    qDebug() << "Failed to initialize tray icon";
+  } catch (std::exception &e) {
+    qWarning() << "Failed to initialize tray icon:" << e.what();
   }
 }
 
@@ -47,6 +47,7 @@ Olam::Olam(QWidget *parent) : QMainWindow(parent), ui(new Ui::Olam) {
   font.setPixelSize(20);
   ui->dict_result->setFont(font);
 
+  ui->dict_result->setOpenLinks(false);
   QObject::connect(ui->dict_result, SIGNAL(anchorClicked(QUrl)), this,
                    SLOT(handleLink(QUrl)));
 
@@ -55,20 +56,14 @@ Olam::Olam(QWidget *parent) : QMainWindow(parent), ui(new Ui::Olam) {
 
 Olam::~Olam() { delete ui; }
 
-bool fileExists(QString path) {
-  QFileInfo check_file(path);
-  // check if file exists and if yes: Is it really a file and no directory?
-  return (check_file.exists() && check_file.isFile());
-}
-
-QString getResourcePath() {
+static QString getResourcePath() {
   if (QDir("db").exists()) {
     return "./db";
   }
 #if defined(Q_OS_WIN)
   return QApplication::applicationDirPath() + "/db";
-#elif defined(Q_OS_OSX)
-  return QApplication::applicationDirPath() + "/../Resources/";
+#elif defined(Q_OS_MACOS)
+  return QDir::cleanPath(QApplication::applicationDirPath() + "/../Resources");
 #elif defined(Q_OS_LINUX)
   return QDir::cleanPath(QApplication::applicationDirPath() +
                          "/../share/olam/data/db");
@@ -77,91 +72,138 @@ QString getResourcePath() {
 #endif
 }
 
-QString getOlamDbPath() {
-  qDebug() << getResourcePath();
+static QString getOlamDbPath() {
   return getResourcePath() + "/olamdb.db";
 }
-QString getDatukDbPath() { return getResourcePath() + "/datuk.sqlite"; }
 
-// create connection with db
+static QString getDatukDbPath() {
+  return getResourcePath() + "/datuk.sqlite";
+}
+
 bool Olam::createConnection() {
-  QSqlDatabase olam = QSqlDatabase::addDatabase("QSQLITE", "olam");
-  olam.setDatabaseName(getOlamDbPath());
-  QSqlDatabase datuk = QSqlDatabase::addDatabase("QSQLITE", "datuk");
-  datuk.setDatabaseName(getDatukDbPath());
+  QString olamPath = getOlamDbPath();
+  QString datukPath = getDatukDbPath();
+  qDebug() << "createConnection: olamdb =" << olamPath;
+  qDebug() << "createConnection: datuk  =" << datukPath;
 
-  if (!olam.open() || !datuk.open()) {
-    QMessageBox::information(nullptr, "Connection to dictionary Failed!",
-                             olam.lastError().text(), QMessageBox::Ok,
-                             QMessageBox::NoButton);
+  if (!QFileInfo::exists(olamPath))
+    qCritical() << "createConnection: olamdb file not found at" << olamPath;
+  if (!QFileInfo::exists(datukPath))
+    qCritical() << "createConnection: datuk file not found at" << datukPath;
+
+  QSqlDatabase olam = QSqlDatabase::addDatabase("QSQLITE", "olam");
+  olam.setDatabaseName(olamPath);
+  QSqlDatabase datuk = QSqlDatabase::addDatabase("QSQLITE", "datuk");
+  datuk.setDatabaseName(datukPath);
+
+  bool olamOk = olam.open();
+  bool datukOk = datuk.open();
+
+  if (!olamOk)
+    qCritical() << "createConnection: failed to open olamdb:" << olam.lastError().text();
+  else
+    qDebug() << "createConnection: olamdb opened successfully";
+
+  if (!datukOk)
+    qCritical() << "createConnection: failed to open datuk:" << datuk.lastError().text();
+  else
+    qDebug() << "createConnection: datuk opened successfully";
+
+  if (!olamOk || !datukOk) {
+    QMessageBox::critical(nullptr, "Connection to dictionary failed",
+                          olam.lastError().text());
   }
 
-  return true;
+  return olamOk && datukOk;
 }
+
 void Olam::handleLink(QUrl link) {
-  QString action = link.toString().split(":")[0];
-  QString word = link.toString().split(":")[1];
-  qDebug() << word;
+  QString raw = link.toString();
+  qDebug() << "handleLink(QUrl): raw URL =" << raw;
+
+  int sep = raw.indexOf(':');
+  if (sep < 0) {
+    qWarning() << "handleLink(QUrl): no ':' found in URL, ignoring";
+    return;
+  }
+  QString action = raw.left(sep);
+  QString word = raw.mid(sep + 1);
+  qDebug() << "handleLink(QUrl): action =" << action << "word =" << word;
 
   if (action == "translate") {
     ui->dict_word->setText(word);
     ui->maleng_search->click();
   } else if (action == "speak") {
-    QTextToSpeech *tt = new QTextToSpeech();
+    qDebug() << "handleLink(QUrl): speaking word" << word;
+    QTextToSpeech *tt = new QTextToSpeech(this);
     tt->setLocale(QLocale::Malayalam);
     tt->say(word);
-    ui->maleng_search->click();
+  } else {
+    qWarning() << "handleLink(QUrl): unknown action" << action;
   }
 }
 
-// eng-mal or mal-eng
+// eng-mal or mal-eng dictionary lookup
 QString Olam::handleLink(QString word) {
+  qDebug() << "handleLink(QString): looking up word =" << word;
+
   QSqlDatabase db = QSqlDatabase::database("olam");
-  db.open();
-  QSqlQuery query(db);
-  QString querystring;
-  QList<OlamWord> olamWords;
-  word = word.trimmed();
-  word = word.left(1).toUpper() + word.mid(1);  // capitalise first char
-  QString lang = detect_language(word);
-  if (lang == "eng") {
-    querystring =
-        QString("SELECT malayalam, pos from olam where english = '%1'")
-            .arg(word);
-  } else if (lang == "mal") {
-    querystring =
-        QString("SELECT english  , pos from olam where malayalam = '%1'")
-            .arg(word);
-  }
-  query.exec(querystring);
-  while (query.next()) {
-    OlamWord word =
-        *new OlamWord(query.value(0).toString(), query.value(1).toString());
-    olamWords.append(word);
-  }
-  QString result = "", po;
-  QList<OlamWord> noun, verb, adj, adverb, other;
-  for (int i = 0; i < olamWords.size(); ++i) {
-    po = olamWords.at(i).pos;
-    if (po == "n") {
-      noun << olamWords.at(i);
-    } else if (po == "v") {
-      verb << olamWords.at(i);
-    } else if (po == "a") {
-      adj << olamWords.at(i);
-    } else if (po == "adv") {
-      adverb << olamWords.at(i);
-    } else {
-      other << olamWords.at(i);
+  if (!db.isOpen()) {
+    qWarning() << "handleLink(QString): db not open, attempting to reopen";
+    if (!db.open()) {
+      qCritical() << "handleLink(QString): failed to open db:" << db.lastError().text();
+      return {};
     }
   }
-  QString pos;
-  QStringList wordlist;
+
+  word = word.trimmed();
+  if (word.isEmpty()) {
+    qDebug() << "handleLink(QString): empty word, returning";
+    return {};
+  }
+
+  word = word.left(1).toUpper() + word.mid(1);
+  QString lang = OlamDatabase::detect_language(word);
+  qDebug() << "handleLink(QString): detected lang =" << lang << "word =" << word;
+
+  QString querystring;
+  if (lang == "eng") {
+    querystring = QString("SELECT malayalam, types FROM dictionary WHERE english = '%1'")
+                      .arg(word);
+  } else {
+    querystring = QString("SELECT english, types FROM dictionary WHERE malayalam = '%1'")
+                      .arg(word);
+  }
+  qDebug() << "handleLink(QString): query =" << querystring;
+
+  QSqlQuery query(db);
+  if (!query.exec(querystring)) {
+    qCritical() << "handleLink(QString): query failed:" << query.lastError().text();
+    return {};
+  }
+
+  QList<OlamWord> olamWords;
+  while (query.next()) {
+    olamWords.append(OlamWord(query.value(0).toString(), query.value(1).toString()));
+  }
+  qDebug() << "handleLink(QString): found" << olamWords.size() << "results";
+
+  QList<OlamWord> noun, verb, adj, adverb, other;
+  for (const OlamWord &w : olamWords) {
+    if (w.pos == "n")        noun   << w;
+    else if (w.pos == "v")   verb   << w;
+    else if (w.pos == "a")   adj    << w;
+    else if (w.pos == "adv") adverb << w;
+    else                     other  << w;
+  }
+
+  QString result;
   result += printpos("Noun", noun);
   result += printpos("Verb", verb);
   result += printpos("Adverb", adverb);
   result += printpos("Adjective", adj);
   result += printpos("Other", other);
+
   if (result.isEmpty()) {
     result = "<li>No results found</li>";
   }
@@ -169,6 +211,7 @@ QString Olam::handleLink(QString word) {
 }
 
 void Olam::on_maleng_search_clicked() {
+  qDebug() << "on_maleng_search_clicked";
   QString result = handleLink(ui->dict_word->text());
   if (result.isEmpty()) {
     result = "<li>The given word not found in the database</li>";
@@ -177,75 +220,66 @@ void Olam::on_maleng_search_clicked() {
 }
 
 void Olam::on_malmal_search_clicked() {
-  QString result;
-  result = searchcorpus(ui->corpus_word->text());
-  result = result.trimmed();
+  qDebug() << "on_malmal_search_clicked";
+  QString result = searchcorpus(ui->corpus_word->text()).trimmed();
   ui->corpus_result->setText(result);
 }
 
 QString Olam::searchcorpus(QString word) {
-  QSqlDatabase db = QSqlDatabase::database("datuk");
-  db.open();
-  QSqlQuery query(db);
-  QString querystring, result;
-  QStringList deflist;
   word = word.trimmed();
-  querystring = QString(
-                    "select definition,rtype,letter from "
-                    "word,relation,definition where word.id = relation.id_word "
-                    "AND relation.id_definition = definition.id and word ='%1'")
-                    .arg(word);
-  if (!query.exec(querystring)) {
-    QMessageBox::critical(nullptr, qApp->tr("Cannot open database"),
-                          qApp->tr("queryfailed."), QMessageBox::Cancel);
+  qDebug() << "searchcorpus: word =" << word;
+
+  QSqlDatabase db = QSqlDatabase::database("datuk");
+  if (!db.isOpen()) {
+    qWarning() << "searchcorpus: db not open, attempting to reopen";
+    if (!db.open()) {
+      qCritical() << "searchcorpus: failed to open datuk db:" << db.lastError().text();
+      return "<li>Database unavailable</li>";
+    }
   }
-  result += "<ul>";
+
+  QString querystring =
+      QString("SELECT definition, rtype, letter FROM word, relation, definition "
+              "WHERE word.id = relation.id_word "
+              "AND relation.id_definition = definition.id "
+              "AND word.word = '%1'")
+          .arg(word);
+  qDebug() << "searchcorpus: query =" << querystring;
+
+  QSqlQuery query(db);
+  if (!query.exec(querystring)) {
+    qCritical() << "searchcorpus: query failed:" << query.lastError().text();
+    return "<li>Query failed</li>";
+  }
+
+  QString result = "<ul>";
   while (query.next()) {
-    result += "<li>";
-    result += query.value(0).toString();
-    result += "<b>";
-    result += query.value(1).toString();
-    result += "</b>";
-    result += "</li>";
+    result += "<li>" + query.value(0).toString()
+            + " <b>" + query.value(1).toString() + "</b>"
+            + "</li>";
   }
   result += "</ul>";
-  if (result.isEmpty()) {
+
+  if (result == "<ul></ul>") {
     result = "<li>No results found</li>";
   }
-  db.close();
   return result;
-  // return querystring;
 }
 
 QString Olam::printpos(QString pos, QList<OlamWord> wordlist) {
-  QString returnstring;
-  if (wordlist.size() != 0) {
-    returnstring += "<h2>";
-    returnstring += pos;
-    returnstring += "</h2>";
-    returnstring += "<ul>";
-    for (int i = 0; i < wordlist.size(); i++) {
-      returnstring += wordlist.at(i).toS();
-    }
-    returnstring += "</ul>";
+  if (wordlist.isEmpty())
+    return {};
+  QString out = "<h2>" + pos + "</h2><ul>";
+  for (const OlamWord &w : wordlist) {
+    out += w.toS();
   }
-  return returnstring;
+  out += "</ul>";
+  return out;
 }
 
-QString Olam::detect_language(QString text) {
-  // need to implement better language detector
-  QRegExp rx("[a-zA-Z]*");
-  rx.setPatternSyntax(QRegExp::Wildcard);
-  if (rx.exactMatch(text)) {
-    return "eng";
-  } else {
-    return "mal";
-  }
-}
-
-void Olam::on_dict_word_textEdited(const QString &arg1) {
+void Olam::on_dict_word_textEdited(const QString &) {
   QString word = ui->dict_word->text().trimmed();
-  OlamDatabase olamDatabase = *new OlamDatabase();
+  OlamDatabase olamDatabase;
   QStringList wordList = olamDatabase.suggestions(word);
   QCompleter *completer = new QCompleter(wordList, this);
   completer->setCaseSensitivity(Qt::CaseInsensitive);
@@ -257,38 +291,35 @@ void Olam::on_action_About_triggered() {
   dialog->show();
 }
 
-void Olam::on_corpus_word_textEdited(const QString &arg1) {
+void Olam::on_corpus_word_textEdited(const QString &) {
   QSqlDatabase db = QSqlDatabase::database("datuk");
-  db.open();
-  if (!db.isValid()) {
-    qDebug() << "not valid";
+  if (!db.isOpen() && !db.open()) {
+    qWarning() << "on_corpus_word_textEdited: datuk db not available";
+    return;
   }
+
+  QString word = ui->corpus_word->text().trimmed();
+  QString querystring = QString("SELECT DISTINCT word FROM word WHERE word LIKE '%1%' LIMIT 10")
+                            .arg(word);
+
   QSqlQuery query(db);
-  QString tempword = ui->corpus_word->text();
-  tempword = tempword.trimmed();
-  QString querystring = "select DISTINCT word from word where word like '";
-  // tempword= tempword.left(1).toUpper()+tempword.mid(1);//capitalise first
-  // char
-  querystring += tempword;
-  querystring.append("%'");
-  querystring.append(" limit 10");
   if (!query.exec(querystring)) {
-    QMessageBox::critical(nullptr, qApp->tr("Cannot open database"),
-                          qApp->tr("queryfailed."), QMessageBox::Cancel);
+    qWarning() << "on_corpus_word_textEdited: autocomplete query failed:" << query.lastError().text();
+    return;
   }
+
   QStringList wordList;
   while (query.next()) {
-    QString word = query.value(0).toString();
-    wordList << word;
-    // result.append("\n");
+    wordList << query.value(0).toString();
   }
+
   QCompleter *completer = new QCompleter(wordList, this);
   completer->setCaseSensitivity(Qt::CaseInsensitive);
   ui->corpus_word->setCompleter(completer);
-  db.close();
 }
 
 void Olam::on_dict_word_returnPressed() {
+  qDebug() << "on_dict_word_returnPressed";
   QString result = handleLink(ui->dict_word->text());
   if (result.isEmpty()) {
     result = "<li>The given word not found in the database</li>";
@@ -298,4 +329,8 @@ void Olam::on_dict_word_returnPressed() {
 
 void Olam::on_action_Exit_triggered() { qApp->quit(); }
 
-void Olam::on_corpus_word_returnPressed() {}
+void Olam::on_corpus_word_returnPressed() {
+  qDebug() << "on_corpus_word_returnPressed";
+  QString result = searchcorpus(ui->corpus_word->text()).trimmed();
+  ui->corpus_result->setText(result);
+}

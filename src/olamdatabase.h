@@ -1,16 +1,12 @@
 #ifndef OLAMDATABASE_H
 #define OLAMDATABASE_H
 
-#include <QSqlDatabase>
+#include <QStringList>
 
 class OlamDatabase {
- private:
-  QSqlDatabase db;
-  QString detect_language(QString word);
-
- public:
-  OlamDatabase();
-  QStringList suggestions(QString word);
+public:
+    QStringList suggestions(QString word);
+    static QString detect_language(const QString &word);
 };
 
 #endif  // OLAMDATABASE_H
