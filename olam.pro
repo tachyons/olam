@@ -8,7 +8,9 @@ QT       += core gui sql texttospeech
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += qt c++11
+CONFIG += qt c++11 lrelease embed_translations
+
+TRANSLATIONS += translations/ml_IN.ts
 
 TARGET = olam
 TEMPLATE = app

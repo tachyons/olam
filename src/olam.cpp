@@ -146,7 +146,7 @@ bool Olam::createConnection() {
     bool olamOk  = openDb("olam",  getOlamDbPath());
     bool datukOk = openDb("datuk", getDatukDbPath());
     bool ok = olamOk && datukOk;
-    if (!ok) QMessageBox::critical(nullptr, "Database error",
+    if (!ok) QMessageBox::critical(nullptr, tr("Database error"),
                                    QSqlDatabase::database("olam").lastError().text());
     return ok;
 }
@@ -160,11 +160,11 @@ void Olam::setupTrayIcon() {
     try {
         trayIcon->setIcon(icon);
         window()->setWindowIcon(icon);
-        trayIcon->setToolTip("Olam — English Malayalam Dictionary");
-        menu->addAction("About", new About, SLOT(show()));
-        menu->addAction("Help",  this,      SLOT(openHelpUrl()));
+        trayIcon->setToolTip(tr("Olam \u2014 English Malayalam Dictionary"));
+        menu->addAction(tr("About"), new About, SLOT(show()));
+        menu->addAction(tr("Help"),  this,      SLOT(openHelpUrl()));
         menu->addSeparator();
-        menu->addAction("Exit", QApplication::instance(), SLOT(quit()));
+        menu->addAction(tr("Exit"), QApplication::instance(), SLOT(quit()));
         trayIcon->setContextMenu(menu);
         trayIcon->show();
     } catch (std::exception &e) {
@@ -191,7 +191,7 @@ void Olam::showWordOfTheDay() {
     const QString word = query.value(0).toString();
     ui->dict_word->setText(word);
     ui->dict_result->setHtml(
-        "<div class='pos'>Word of the Day</div>" + lookupWord(word));
+        "<div class='pos'>" + tr("Word of the Day") + "</div>" + lookupWord(word));
 }
 
 // ── Search history ────────────────────────────────────────────────────────────
@@ -271,13 +271,13 @@ QString Olam::lookupWord(const QString &rawWord) {
     }
 
     QString result;
-    result += printpos("Noun",      noun);
-    result += printpos("Verb",      verb);
-    result += printpos("Adverb",    adverb);
-    result += printpos("Adjective", adj);
-    result += printpos("Other",     other);
+    result += printpos(tr("Noun"),      noun);
+    result += printpos(tr("Verb"),      verb);
+    result += printpos(tr("Adverb"),    adverb);
+    result += printpos(tr("Adjective"), adj);
+    result += printpos(tr("Other"),     other);
 
-    if (result.isEmpty()) result = "<li>No results found</li>";
+    if (result.isEmpty()) result = "<li>" + tr("No results found") + "</li>";
     return result;
 }
 
@@ -297,7 +297,7 @@ void Olam::on_maleng_search_clicked() {
     addToHistory(word);
     const QString result = lookupWord(word);
     ui->dict_result->setHtml(result.isEmpty()
-        ? "<li>No results found</li>" : result);
+        ? "<li>" + tr("No results found") + "</li>" : result);
 }
 
 void Olam::on_dict_word_returnPressed() {
@@ -381,7 +381,7 @@ QString Olam::searchcorpus(const QString &rawWord) {
     QSqlDatabase db = QSqlDatabase::database("datuk");
     if (!db.isOpen() && !db.open()) {
         qCritical() << "searchcorpus: cannot open datuk db";
-        return "<li>Database unavailable</li>";
+        return "<li>" + tr("Database unavailable") + "</li>";
     }
 
     QSqlQuery query(db);
@@ -394,7 +394,7 @@ QString Olam::searchcorpus(const QString &rawWord) {
 
     if (!query.exec()) {
         qCritical() << "searchcorpus: query failed:" << query.lastError().text();
-        return "<li>Query failed</li>";
+        return "<li>" + tr("Query failed") + "</li>";
     }
 
     QString result = "<ul>";
@@ -404,7 +404,7 @@ QString Olam::searchcorpus(const QString &rawWord) {
     }
     result += "</ul>";
 
-    if (result == "<ul></ul>") result = "<li>No results found</li>";
+    if (result == "<ul></ul>") result = "<li>" + tr("No results found") + "</li>";
     return result;
 }
 
