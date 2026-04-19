@@ -8,5 +8,7 @@
         <file>icons/help-about.svg</file>
         <file>icons/application-exit.svg</file>
         <file alias="logo">misc/olam.png</file>
+        <file alias="style">misc/style.qss</file>
+        <file alias="style_dark">misc/style_dark.qss</file>
     </qresource>
 </RCC>

@@ -1,15 +1,16 @@
 #include "olamdatabase.h"
 
 #include <QDebug>
-#include <QRegularExpression>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
 
 QString OlamDatabase::detect_language(const QString &word)
 {
-    QRegularExpression re("^[a-zA-Z ]+$");
-    return re.match(word).hasMatch() ? "eng" : "mal";
+    for (const QChar &c : word) {
+        if (c.unicode() > 127) return "mal";
+    }
+    return "eng";
 }
 
 QStringList OlamDatabase::suggestions(QString word)

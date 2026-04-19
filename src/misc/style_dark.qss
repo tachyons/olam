@@ -1,0 +1,159 @@
+QWidget {
+    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+    font-size: 13px;
+    color: #f5f5f7;
+}
+
+QMainWindow, QDialog {
+    background-color: #1c1c1e;
+}
+
+/* Tab widget */
+QTabWidget::pane {
+    border: 1px solid #3a3a3c;
+    background: #1c1c1e;
+}
+
+QTabBar::tab {
+    padding: 7px 20px;
+    background: #2c2c2e;
+    color: #f5f5f7;
+    border: 1px solid #3a3a3c;
+    border-bottom: none;
+    margin-right: 2px;
+    font-size: 13px;
+}
+
+QTabBar::tab:selected {
+    background: #1c1c1e;
+    color: #f5f5f7;
+    font-weight: 600;
+}
+
+QTabBar::tab:hover:!selected {
+    background: #3a3a3c;
+    color: #f5f5f7;
+}
+
+/* Inputs */
+QLineEdit {
+    padding: 7px 10px;
+    border: 1.5px solid #3a3a3c;
+    border-radius: 8px;
+    font-size: 14px;
+    background: #2c2c2e;
+    color: #f5f5f7;
+    selection-background-color: #0a84ff;
+}
+
+QLineEdit:focus {
+    border-color: #0a84ff;
+}
+
+/* Primary buttons */
+QPushButton {
+    padding: 7px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    background-color: #0a84ff;
+    color: white;
+    border: none;
+}
+
+QPushButton:hover {
+    background-color: #409cff;
+}
+
+QPushButton:pressed {
+    background-color: #0071e3;
+}
+
+/* Secondary (copy) buttons */
+QPushButton#copy_dict, QPushButton#copy_corpus {
+    background-color: transparent;
+    color: #0a84ff;
+    border: 1.5px solid #0a84ff;
+}
+
+QPushButton#copy_dict:hover, QPushButton#copy_corpus:hover {
+    background-color: rgba(10, 132, 255, 0.12);
+}
+
+QPushButton#copy_dict:pressed, QPushButton#copy_corpus:pressed {
+    background-color: rgba(10, 132, 255, 0.22);
+}
+
+/* Result browser */
+QTextBrowser {
+    border: 1.5px solid #3a3a3c;
+    border-radius: 8px;
+    background: #2c2c2e;
+    padding: 6px;
+    color: #f5f5f7;
+}
+
+/* Menus */
+QMenuBar {
+    background-color: #1c1c1e;
+    border-bottom: 1px solid #3a3a3c;
+    color: #f5f5f7;
+}
+
+QMenuBar::item {
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: #f5f5f7;
+}
+
+QMenuBar::item:selected {
+    background-color: #2c2c2e;
+}
+
+QMenu {
+    background-color: #2c2c2e;
+    border: 1px solid #3a3a3c;
+    border-radius: 8px;
+    padding: 4px 0;
+    color: #f5f5f7;
+}
+
+QMenu::item {
+    padding: 6px 20px;
+    border-radius: 4px;
+    color: #f5f5f7;
+}
+
+QMenu::item:selected {
+    background-color: #0a84ff;
+    color: white;
+}
+
+/* Item views & completer popup */
+QAbstractItemView {
+    background: #2c2c2e;
+    color: #f5f5f7;
+    border: 1px solid #3a3a3c;
+    border-radius: 6px;
+    selection-background-color: #0a84ff;
+    selection-color: white;
+    outline: none;
+}
+
+/* About dialog */
+QListWidget {
+    border: 1px solid #3a3a3c;
+    border-radius: 6px;
+    background: #2c2c2e;
+    color: #f5f5f7;
+    padding: 4px;
+}
+
+QPlainTextEdit {
+    border: 1px solid #3a3a3c;
+    border-radius: 6px;
+    background: #2c2c2e;
+    color: #f5f5f7;
+    font-size: 12px;
+    font-family: "Menlo", "Courier New", monospace;
+}
