@@ -4,7 +4,7 @@ build:
   verbosity: minimal
 install:
   - set QTDIR=C:\Qt\6.9.3\mingw_64
-  - set MINGW_BIN=C:\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0\bin
+  - set MINGW_BIN=C:\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0\mingw64\bin
   - choco install -y InnoSetup
   - set PATH=%QTDIR%\bin;%MINGW_BIN%;%PATH%;"C:\Program Files (x86)\Inno Setup 6"
 build_script:
